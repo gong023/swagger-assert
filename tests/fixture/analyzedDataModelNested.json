@@ -1,0 +1,147 @@
+{
+    "Nests": {
+        "apis": [
+            {
+                "description": "nest model test case",
+                "operations": [
+                    {
+                        "method": "GET",
+                        "nickname": "[GET]nestTestCase",
+                        "notes": "api which nests model",
+                        "parameters": [
+                            {
+                                "description": "something id",
+                                "name": "sampleId",
+                                "paramType": "path",
+                                "required": true,
+                                "type": "string"
+                            }
+                        ],
+                        "responseMessages": [
+                            {
+                                "code": 500,
+                                "message": "internal error1"
+                            },
+                            {
+                                "code": 500,
+                                "message": "internal error2"
+                            }
+                        ],
+                        "summary": "nest model",
+                        "type": "entranceModel"
+                    },
+                    {
+                        "method": "POST",
+                        "nickname": "[POST]nestTestCase",
+                        "notes": "nest api which has item ref",
+                        "responseMessages": [
+                            {
+                                "code": 500,
+                                "message": "internal error1"
+                            }
+                        ],
+                        "summary": "item ref model",
+                        "type": "array",
+                        "items": {
+                            "$ref": "entranceModel"
+                        }
+                    }
+                ],
+                "path": "/nest/{sampleId}"
+            }
+        ],
+        "basePath": "dummy string",
+        "models": {
+            "entranceModel": {
+                "description": "This is sample api structure",
+                "id": "entranceModel",
+                "properties": {
+                    "refInKey": {
+                        "$ref": "referencedModel",
+                        "description": "reference another Model",
+                        "type": "string"
+                    },
+                    "refInKey2": {
+                        "$ref": "referencedModel2",
+                        "description": "reference Model2",
+                        "type": "string"
+                    },
+                    "refInKey3": {
+                        "description": "not required.",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "refInKey",
+                    "refInKey2"
+                ]
+            },
+            "referencedModel": {
+                "description": "This is sample api structure",
+                "id": "referencedModel",
+                "properties": {
+                    "referenced1": {
+                        "description": "referenced by refInKey",
+                        "type": "string"
+                    },
+                    "referenced2": {
+                        "description": "referenced by refInKey too.",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "referenced1",
+                    "referenced2"
+                ]
+            },
+            "referencedModel2": {
+                "description": "This is sample api structure",
+                "id": "referencedModel2",
+                "properties": {
+                    "referenced2-1": {
+                        "$ref": "referencedModel3",
+                        "description": "referenced by referencedModel",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "referenced2-1"
+                ]
+            },
+            "referencedModel3": {
+                "description": "This is sample api structure",
+                "id": "referencedModel3",
+                "properties": {
+                    "referenced3-1": {
+                        "$ref": "referencedModel4",
+                        "description": "referenced by referencedModel2",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "referenced3-1"
+                ]
+            },
+            "referencedModel4": {
+                "description": "This is sample api structure",
+                "id": "referencedModel4",
+                "properties": {
+                    "referenced4-1": {
+                        "description": "referenced by referencedModel3",
+                        "type": "string"
+                    },
+                    "referenced4-2": {
+                        "description": "referenced by referencedModel3 too.",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "referenced4-1",
+                    "referenced4-2"
+                ]
+            }
+        },
+        "resourcePath": "nestApi",
+        "swaggerVersion": "1.2"
+    }
+}

@@ -1,0 +1,61 @@
+{
+    "Simples": {
+        "apis": [
+            {
+                "description": "simple test case",
+                "operations": [
+                    {
+                        "method": "GET",
+                        "nickname": "simpleTestCase",
+                        "notes": "simple api which does not nest model",
+                        "parameters": [
+                            {
+                                "description": "something id",
+                                "name": "sampleId",
+                                "paramType": "path",
+                                "required": true,
+                                "type": "string"
+                            }
+                        ],
+                        "responseMessages": [
+                            {
+                                "code": 500,
+                                "message": "internal error1"
+                            },
+                            {
+                                "code": 500,
+                                "message": "internal error2"
+                            }
+                        ],
+                        "summary": "doesn't nest model",
+                        "type": "sampleModel"
+                    }
+                ],
+                "path": "/simple/{sampleId}"
+            }
+        ],
+        "basePath": "dummy string",
+        "models": {
+            "sampleModel": {
+                "description": "This is sample api structure",
+                "id": "sampleModel",
+                "properties": {
+                    "simpleKey1": {
+                        "description": "key of 1",
+                        "type": "string"
+                    },
+                    "simpleKey2": {
+                        "description": "key of 2",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "simpleKey1",
+                    "simpleKey2"
+                ]
+            }
+        },
+        "resourcePath": "SimpleApi",
+        "swaggerVersion": "1.2"
+    }
+}
