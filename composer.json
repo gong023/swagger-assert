@@ -18,8 +18,8 @@
         "zircote/swagger-php": "0.9.0"
     },
     "autoload": {
-        "psr-0": {
-            "SwaggerAssert": "src"
+        "psr-4": {
+            "SwaggerAssert\\": "src/SwaggerAssert/"
         }
     }
 }

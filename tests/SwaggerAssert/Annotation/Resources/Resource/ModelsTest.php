@@ -1,21 +1,18 @@
 <?php
 
-namespace SwaggerAssert\ResourcesTest\ResourceTest;
+namespace SwaggerAssert\Annotation\Resources\Resource;
 
-use SwaggerAssert\AnnotationTestBase;
-use SwaggerAssert\Annotation\Resources\Resource\Models;
+use SwaggerAssert\TestBase;
 use SwaggerAssert\Annotation\Resources\Resource\Models\Model\Properties\Property;
 
-/**
- * Class ModelsTest
- *
- * @package SwaggerAssert\ResourcesTest\ResourceTest
- */
-class ModelsTest extends AnnotationTestBase
+class ModelsTest extends TestBase
 {
     /** @var Models $subject */
     private $subject = null;
 
+    /**
+     * setUp
+     */
     public function setUp()
     {
         $fixture = $this->fixture('analyzedDataModelNested');

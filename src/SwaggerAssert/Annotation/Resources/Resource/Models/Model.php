@@ -56,6 +56,7 @@ class Model
         if (! $onlyRequired) {
             return new Properties($this->model['properties']);
         }
+
         $filtered = [];
         foreach ($this->model['properties'] as $propertyKey => $propertyVal) {
             if (in_array($propertyKey, $this->required())) {

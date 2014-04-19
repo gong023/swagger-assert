@@ -44,3 +44,4 @@ class Annotation
         return $assert->swaggerWithResponse(self::$analyzedData, $response, $httpMethod, $url, $onlyRequired);
     }
 }
+
