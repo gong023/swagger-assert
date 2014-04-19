@@ -2,36 +2,21 @@
 
 namespace SwaggerAssert\Annotation\Resources\Resource\Apis\Api\Operations;
 
+use SwaggerAssert\Annotation\Individual;
 use SwaggerAssert\Annotation\Resources\Resource\Apis\Api\Operations\Operation\Parameters;
 use SwaggerAssert\Annotation\Resources\Resource\Apis\Api\Operations\Operation\ResponseMessages;
 
 /**
  * SWG\Operationのクラス
- *
- * Class Operation
- * @package SwaggerAssert\Annotation\Resources\Resource\Apis\Api\Operations
  */
-class Operation
+class Operation extends Individual
 {
-    /** @var array $operation */
-    private $operation;
-
-    /**
-     * コンストラクタ
-     *
-     * @param array $operation
-     */
-    public function __construct($operation)
-    {
-        $this->operation = $operation;
-    }
-
     /**
      * @return string
      */
     public function method()
     {
-        return $this->operation['method'];
+        return $this->written('method');
     }
 
     /**
@@ -39,7 +24,7 @@ class Operation
      */
     public function nickname()
     {
-        return $this->operation['nickname'];
+        return $this->written('nickname');
     }
 
     /**
@@ -47,7 +32,7 @@ class Operation
      */
     public function notes()
     {
-        return $this->operation['notes'];
+        return $this->written('notes');
     }
 
     /**
@@ -55,7 +40,7 @@ class Operation
      */
     public function summary()
     {
-        return $this->operation['summary'];
+        return $this->written('summary');
     }
 
     /**
@@ -63,7 +48,7 @@ class Operation
      */
     public function type()
     {
-        return $this->operation['type'];
+        return $this->written('type');
     }
 
     /**
@@ -71,7 +56,7 @@ class Operation
      */
     public function hasItemsRef()
     {
-        return isset($this->operation['items']['$ref']);
+        return isset($this->resource['items']['$ref']);
     }
 
     /**
@@ -79,7 +64,7 @@ class Operation
      */
     public function itemsRef()
     {
-        return $this->operation['items']['$ref'];
+        return $this->resource['items']['$ref'];
     }
 
     /**
@@ -87,7 +72,7 @@ class Operation
      */
     public function parameters()
     {
-        return new Parameters($this->operation['parameters']);
+        return new Parameters($this->written('parameters'));
     }
 
     /**
@@ -95,6 +80,6 @@ class Operation
      */
     public function responseMessages()
     {
-        return new ResponseMessages($this->operation['responseMessages']);
+        return new ResponseMessages($this->written('responseMessages'));
     }
 }

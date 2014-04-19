@@ -2,33 +2,28 @@
 
 namespace SwaggerAssert\Annotation\Resources;
 
+use SwaggerAssert\Annotation\Individual;
 use SwaggerAssert\Annotation\Resources\Resource\Apis;
 use SwaggerAssert\Annotation\Resources\Resource\Models;
 
 /**
  * SWG\Resourceのクラス
- *
- * Class Resource
- * @package SwaggerAssert\Annotation\Resources
  */
-class Resource
+class Resource extends Individual
 {
     /** @var string $fileName */
     private $fileName;
-
-    /** @var array $resources */
-    private $resources;
 
     /**
      * コンストラクタ
      *
      * @param string $fileName
-     * @param array $resources
+     * @param array $resource
      */
-    public function __construct($fileName, $resources)
+    public function __construct($fileName, $resource)
     {
         $this->fileName = $fileName;
-        $this->resources = $resources;
+        $this->resource = $resource;
     }
 
     /**
@@ -44,7 +39,7 @@ class Resource
      */
     public function basePath()
     {
-        return $this->resources['basePath'];
+        return $this->resource['basePath'];
     }
 
     /**
@@ -52,7 +47,7 @@ class Resource
      */
     public function resourcePath()
     {
-        return $this->resources['resourcePath'];
+        return $this->resource['resourcePath'];
     }
 
     /**
@@ -60,7 +55,7 @@ class Resource
      */
     public function swaggerVersion()
     {
-        return $this->resources['swaggerVersion'];
+        return $this->resource['swaggerVersion'];
     }
 
     /**
@@ -68,7 +63,7 @@ class Resource
      */
     public function apis()
     {
-        return new Apis($this->resources['apis']);
+        return new Apis($this->written('apis'));
     }
 
     /**
@@ -76,6 +71,6 @@ class Resource
      */
     public function models()
     {
-        return new Models($this->resources['models']);
+        return new Models($this->written('models'));
     }
 }

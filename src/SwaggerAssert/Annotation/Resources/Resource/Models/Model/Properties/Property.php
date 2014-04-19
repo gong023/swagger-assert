@@ -2,30 +2,26 @@
 
 namespace SwaggerAssert\Annotation\Resources\Resource\Models\Model\Properties;
 
+use SwaggerAssert\Annotation\Individual;
+
 /**
  * SWG\Propertyのクラス
- *
- * Class Property
- * @package SwaggerAssert\Annotation\Resources\Resource\Models\Model\Properties
  */
-class Property
+class Property extends Individual
 {
     /** @var string $propertyKey */
     private $propertyKey;
-
-    /** @var array $propertyKey */
-    private $items;
 
     /**
      * コンストラクタ
      *
      * @param string $propertyKey
-     * @param array $items
+     * @param array $resource
      */
-    public function __construct($propertyKey, $items)
+    public function __construct($propertyKey, $resource)
     {
         $this->propertyKey = $propertyKey;
-        $this->items = $items;
+        $this->resource = $resource;
     }
 
     /**
@@ -41,7 +37,7 @@ class Property
      */
     public function description()
     {
-        return $this->items['description'];
+        return $this->written('description');
     }
 
     /**
@@ -49,7 +45,7 @@ class Property
      */
     public function type()
     {
-        return $this->items['type'];
+        return $this->written('type');
     }
 
     /**
@@ -59,7 +55,7 @@ class Property
      */
     public function hasRef()
     {
-        return isset($this->items['$ref']);
+        return isset($this->resource['$ref']);
     }
 
     /**
@@ -69,6 +65,6 @@ class Property
      */
     public function refModelId()
     {
-        return $this->items['$ref'];
+        return $this->resource['$ref'];
     }
 }

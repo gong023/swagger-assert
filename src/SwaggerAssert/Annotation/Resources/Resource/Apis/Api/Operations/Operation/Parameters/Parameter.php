@@ -2,31 +2,19 @@
 
 namespace SwaggerAssert\Annotation\Resources\Resource\Apis\Api\Operations\Operation\Parameters;
 
+use SwaggerAssert\Annotation\Individual;
+
 /**
  * SWG\Parameterのクラス
- *
- * Class Parameter
- * @package SwaggerAssert\Annotation\Resources\Resource\Apis\Api\Operations\Operation\Parameters
  */
-class Parameter
+class Parameter extends Individual
 {
-    /** @var array $parameter */
-    private $parameter;
-
-    /**
-     * @param array $parameter
-     */
-    public function __construct($parameter)
-    {
-        $this->parameter = $parameter;
-    }
-
     /**
      * @return string
      */
     public function description()
     {
-        return $this->parameter['description'];
+        return $this->written('description');
     }
 
     /**
@@ -34,7 +22,7 @@ class Parameter
      */
     public function name()
     {
-        return $this->parameter['name'];
+        return $this->written('name');
     }
 
     /**
@@ -42,7 +30,7 @@ class Parameter
      */
     public function paramType()
     {
-        return $this->parameter['paramType'];
+        return $this->written('paramType');
     }
 
     /**
@@ -50,6 +38,6 @@ class Parameter
      */
     public function type()
     {
-        return $this->parameter['type'];
+        return $this->written('type');
     }
 }

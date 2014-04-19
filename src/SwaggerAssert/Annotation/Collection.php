@@ -4,8 +4,6 @@ namespace SwaggerAssert\Annotation;
 
 /**
  * Class Collection
- *
- * @package SwaggerAssert\Annotation
  */
 class Collection
 {

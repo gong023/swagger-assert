@@ -2,35 +2,20 @@
 
 namespace SwaggerAssert\Annotation\Resources\Resource\Apis;
 
+use SwaggerAssert\Annotation\Individual;
 use SwaggerAssert\Annotation\Resources\Resource\Apis\Api\Operations;
 
 /**
  * SWG\Apiのクラス
- *
- * Class Api
- * @package SwaggerAssert\Annotation\Resources\Resource\Apis
  */
-class Api
+class Api extends Individual
 {
-    /** @var array $api */
-    private $api;
-
-    /**
-     * コンストラクタ
-     *
-     * @param array $api
-     */
-    public function __construct($api)
-    {
-        $this->api = $api;
-    }
-
     /**
      * @return Operations
      */
     public function operations()
     {
-        return new Operations($this->api['operations']);
+        return new Operations($this->written('operations'));
     }
 
     /**
@@ -38,6 +23,6 @@ class Api
      */
     public function path()
     {
-        return $this->api['path'];
+        return $this->written('path');
     }
 }

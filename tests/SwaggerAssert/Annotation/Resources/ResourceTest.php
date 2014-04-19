@@ -30,4 +30,15 @@ class ResourceTest extends TestBase
         $this->assertInstanceOf('SwaggerAssert\Annotation\Resources\Resource\Apis', $this->subject->apis());
         $this->assertInstanceOf('SwaggerAssert\Annotation\Resources\Resource\Models', $this->subject->models());
     }
+
+    /**
+     * @test
+     * @expectedException \SwaggerAssert\Exception\AnnotationException
+     * @expectedExceptionMessage specified SWG\Resource apis is not written in your doc.
+     */
+    public function apisNotWritten()
+    {
+        $subject = new Resource('Simples', ['Simples' => []]);
+        $subject->apis();
+    }
 }
