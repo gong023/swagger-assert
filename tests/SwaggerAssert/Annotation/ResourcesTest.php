@@ -19,6 +19,31 @@ class ResourcesTest extends TestBase
 
     /**
      * @test
+     * @param string $method
+     * @param string $url
+     * @dataProvider invalidMethodAndUrlProvider
+     * @expectedException \SwaggerAssert\Exception\AnnotationException
+     * @expectedExceptionMessage specified SWG\Model not found.
+     */
+    public function expectedKeysNotFound($method, $url)
+    {
+        $resources = new Resources($this->fixture('analyzedDataSimple'));
+        $resources->expectedKeys($method, $url, true);
+    }
+
+    /**
+     * @return array
+     */
+    public static function invalidMethodAndUrlProvider()
+    {
+        return [
+            ['GET', 'invalid url'],
+            ['invalid method', '/simple/{sampleId}'],
+        ];
+    }
+
+    /**
+     * @test
      */
     public function expectedKeysWithItemRef()
     {

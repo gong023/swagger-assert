@@ -3,6 +3,7 @@
 namespace SwaggerAssert\Annotation;
 
 use SwaggerAssert\Annotation\Resources\Resource;
+use SwaggerAssert\Exception\AnnotationException;
 
 /**
  * deal all files of swagger result
@@ -35,6 +36,7 @@ class Resources extends Collection
      * @param string $url
      * @param bool $onlyRequired
      * @return array
+     * @throws AnnotationException
      */
     public function expectedKeys($httpMethod, $url, $onlyRequired)
     {
@@ -58,7 +60,7 @@ class Resources extends Collection
             }
         }
 
-        //TODO:例外投げる
+        throw new AnnotationException("specified SWG\\Model not found. httpMethod:$httpMethod url:$url");
     }
 
     /**
