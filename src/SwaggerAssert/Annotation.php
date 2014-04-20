@@ -3,7 +3,6 @@
 namespace SwaggerAssert;
 
 use \Swagger\Swagger;
-use SwaggerAssert\Assertion;
 
 class Annotation
 {
@@ -17,7 +16,7 @@ class Annotation
      */
     public static function analyze($basePath)
     {
-        $swagger = new \Swagger\Swagger([$basePath], []);
+        $swagger = new Swagger([$basePath], []);
 
         $resourceOptions = [
             'output' => 'json',
