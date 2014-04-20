@@ -4,6 +4,7 @@ namespace SwaggerAssert\Annotation\Resources\Resource;
 
 use SwaggerAssert\Annotation\Collection;
 use SwaggerAssert\Annotation\Resources\Resource\Models\Model;
+use SwaggerAssert\Exception\AnnotationException;
 
 /**
  * SWG\Modelをコレクションするクラス
@@ -34,11 +35,15 @@ class Models extends Collection
      * @param string $modelId
      * @param bool $onlyRequired
      * @return array
+     * @throws AnnotationException
      */
     public function expectedKeys($modelId, $onlyRequired)
     {
+        if (! $this->exists('id', $modelId)) {
+            throw new AnnotationException("specified SWG\\Model is not written your doc. modelId:$modelId");
+        }
+
         $values = [];
-        //TODO:モデル存在チェック
         foreach ($this->pick('id', $modelId)->properties($onlyRequired)->getCollection() as $property) {
             $values = array_merge($values, $this->referencedKeys($property, $onlyRequired));
         }
