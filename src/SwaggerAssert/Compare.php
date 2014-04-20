@@ -7,12 +7,44 @@ namespace SwaggerAssert;
  */
 abstract class Compare
 {
+    /**
+     * compare expected keys and actual keys
+     *
+     * @return array
+     */
     abstract public function execute();
 
-    abstract protected function failMessage();
+    /**
+     * fail message when compared keys do not match
+     *
+     * @param array $actualKeys
+     * @param array $expectedKeys
+     * @return string
+     */
+    abstract protected function failMessage($actualKeys, $expectedKeys);
 
-    protected function readableSort()
+    /**
+     * @param array $array
+     * @return array
+     */
+    protected function readableSort($array)
     {
+        $assoc = [];
+        $hash  = [];
+        foreach ($array as $key => $val) {
+            is_numeric($val) ? $assoc[] = $val : $hash[$key] = $val;
+        }
 
+        foreach ($hash as $key => $val) {
+            if (is_array($val)) {
+                $val = $this->readableSort($val);
+            }
+            $hash[$key] = $val;
+        }
+
+        sort($assoc);
+        asort($hash);
+
+        return array_merge($assoc, $hash);
     }
 }

@@ -2,45 +2,36 @@
 
 namespace SwaggerAssert;
 
-use \Swagger\Swagger;
+use SwaggerAssert\Annotation\Resources;
 
 class Annotation
 {
-    /** @var array result analyzed by swagger */
-    public static $analyzedData = null;
+    /** @var string $httpMethod */
+    private $httpMethod;
+
+    /** @var string $url */
+    private $url;
 
     /**
-     * swaggerを擬似的に実行する。解析結果はファイルに出力せずオブジェクトに保持させる。
-     *
-     * @param string $basePath
+     * @param string $httpMethod
+     * @param string $url
      */
-    public static function analyze($basePath)
+    public function __construct($httpMethod, $url)
     {
-        $swagger = new Swagger([$basePath], []);
-
-        $resourceOptions = [
-            'output' => 'json',
-            'defaultBasePath' => 'dummy string',
-            'defaultApiVersion' => null,
-            'defaultSwaggerVersion' => '1.2'
-        ];
-
-        foreach ($swagger->getResourceNames() as $resourceName) {
-            $annotatedData = json_decode($swagger->getResource($resourceName, $resourceOptions), true);
-            $resourceName = str_replace('/', '-', ltrim($resourceName, '/'));
-            $analyzedData[$resourceName] = $annotatedData;
-        }
-
-        self::$analyzedData = $analyzedData;
+        $this->httpMethod = $httpMethod;
+        $this->url = $url;
     }
 
     /**
-     *
+     * @param array $analyzedData
+     * @param bool $onlyRequired
+     * @return array
      */
-    public static function responseHasSwaggerKeys(Array $response, $httpMethod, $url, $onlyRequired = true)
+    public function getKeys($analyzedData, $onlyRequired)
     {
-        $assert = new Assertion();
-        return $assert->swaggerWithResponse(self::$analyzedData, $response, $httpMethod, $url, $onlyRequired);
+        $resources = new Resources($analyzedData);
+
+        return $resources->expectedKeys($this->httpMethod, $this->url, $onlyRequired);
     }
 }
 
