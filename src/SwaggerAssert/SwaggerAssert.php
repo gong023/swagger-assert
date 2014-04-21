@@ -3,9 +3,10 @@
 namespace SwaggerAssert;
 
 use Swagger\Swagger;
-use SwaggerAssert\Compare\CompareResponseAndAnnotation;
 use SwaggerAssert\Response;
 use SwaggerAssert\Annotation;
+use SwaggerAssert\Compare\CompareResponseAndAnnotation;
+use SwaggerAssert\Pick\PickResponseAndAnnotation;
 
 class SwaggerAssert
 {
@@ -32,6 +33,7 @@ class SwaggerAssert
             'defaultSwaggerVersion' => '1.2'
         ];
 
+        $analyzedData = [];
         foreach ($swagger->getResourceNames() as $resourceName) {
             $annotatedData = json_decode($swagger->getResource($resourceName, $resourceOptions), true);
             $resourceName = str_replace('/', '-', ltrim($resourceName, '/'));
@@ -51,8 +53,9 @@ class SwaggerAssert
     public static function responseHasSwaggerKeys($response, $httpMethod, $url, $onlyRequired = true)
     {
         $responseToCompare = new Response($response);
-        $annotation = new Annotation($httpMethod, $url);
-        $compare = new CompareResponseAndAnnotation($responseToCompare, $annotation, self::$analyzedData, $onlyRequired);
+        $annotation = new Annotation($httpMethod, $url, self::$analyzedData, $onlyRequired);
+        $pick = new PickResponseAndAnnotation($responseToCompare, $annotation);
+        $compare = new CompareResponseAndAnnotation($pick);
 
         return $compare->execute();
     }

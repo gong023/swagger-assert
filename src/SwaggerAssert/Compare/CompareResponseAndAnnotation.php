@@ -3,28 +3,23 @@
 namespace SwaggerAssert\Compare;
 
 use SwaggerAssert\Compare;
-use SwaggerAssert\Response;
-use SwaggerAssert\Annotation;
-use SwaggerAssert\Exception\AnnotationException;
-use SwaggerAssert\Exception\CompareException;
+use SwaggerAssert\Exception\PickException;
+use SwaggerAssert\Pick\PickResponseAndAnnotation;
 
 /**
  * Class CompareResponseAndAnnotation
  */
 class CompareResponseAndAnnotation extends Compare
 {
+    /** @var PickResponseAndAnnotation $pick */
+    private $pick;
+
     /**
-     * @param Response $response
-     * @param Annotation $annotation
-     * @param array $analyzedData
-     * @param bool $onlyRequired
+     * @param PickResponseAndAnnotation $pick
      */
-    public function __construct(Response $response, Annotation $annotation, $analyzedData, $onlyRequired)
+    public function __construct(PickResponseAndAnnotation $pick)
     {
-        $this->response = $response;
-        $this->annotation = $annotation;
-        $this->analyzedData = $analyzedData;
-        $this->onlyRequired = $onlyRequired;
+        $this->pick = $pick;
     }
 
     /**
@@ -33,54 +28,36 @@ class CompareResponseAndAnnotation extends Compare
     public function execute()
     {
         try {
-            $keys = $this->fetchKeys();
-        } catch (CompareException $e) {
+            $this->pick->execute();
+        } catch (PickException $e) {
             return ['isSuccess' => false, 'failMessage' => $e->getMessage()];
         }
 
         return [
-            'isSuccess'   => $this->isSuccess($keys['expected'], $keys['actual']),
-            'failMessage' => $this->failMessage($keys['expected'], $keys['actual'])
+            'isSuccess'   => $this->isSuccess(),
+            'failMessage' => $this->failMessage()
         ];
     }
 
     /**
-     * @param array $expectedKeys
-     * @param array $actualKeys
      * @return string
      */
-    protected function failMessage($expectedKeys, $actualKeys)
+    protected function failMessage()
     {
         $message = 'Failed asserting that API response and swagger document are equal.' . PHP_EOL;
-        $message .= 'response' . var_export($actualKeys, true) . PHP_EOL;
-        $message .= 'swagger' . var_export($expectedKeys, true) . PHP_EOL;
+        $message .= 'response' . var_export($this->pick->actual(), true) . PHP_EOL;
+        $message .= 'swagger' . var_export($this->pick->expected(), true) . PHP_EOL;
 
         return $message;
     }
 
     /**
-     * @return array
-     * @throws CompareException
-     */
-    private function fetchKeys()
-    {
-        try {
-            $expected = $this->readableSort($this->annotation->getKeys($this->analyzedData, $this->onlyRequired));
-            $actual   = $this->readableSort($this->response->getKeys());
-
-            return ['expected' => $expected, 'actual' => $actual];
-        } catch (AnnotationException $e) {
-            throw new CompareException($e->getMessage());
-        }
-    }
-
-    /**
-     * @param array $expected
-     * @param array $actual
      * @return bool
      */
-    private function isSuccess($expected, $actual)
+    private function isSuccess()
     {
+        $expected = $this->pick->expected();
+        $actual = $this->pick->actual();
         $isAssoc = (bool)count(array_filter(array_keys($actual), 'is_string'));
         
         if ($isAssoc) {
