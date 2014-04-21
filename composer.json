@@ -17,6 +17,9 @@
         "php": ">=5.4.0",
         "zircote/swagger-php": "0.9.0"
     },
+    "require-dev": {
+      "satooshi/php-coveralls": "dev-master"
+    },
     "autoload": {
         "psr-4": {
             "SwaggerAssert\\": "src/SwaggerAssert/"
