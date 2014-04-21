@@ -40,7 +40,7 @@ abstract class Pick
      * @param array $array
      * @return array
      */
-    protected function readableSort($array)
+    public function readableSort($array)
     {
         $assoc = [];
         $hash  = [];
