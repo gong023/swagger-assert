@@ -49,15 +49,18 @@ class Resources extends Collection
                 continue;
             }
 
-            // APIレスポンスにコレクションが想定されている場合
-            if ($operation->hasItemsRef()) {
-                return $resource->models()->expectedKeys($operation->itemsRef(), $onlyRequired);
+            $keys = [];
+            if ($resource->models()->exists('id', $operation->type())) {
+                $keys = $resource->models()->expectedKeys($operation->type(), $onlyRequired);
+                if ($operation->hasItemsRef()) {
+                    $itemRef = $operation->itemRef();
+                    $keys[$itemRef] = $resource->models()->expectedKeys($itemRef, $onlyRequired);
+                }
+            } else if ($operation->hasItemsRef()) {
+                $keys = $resource->models()->expectedKeys($operation->itemsRef(), $onlyRequired);
             }
 
-            // APIレスポンスにオブジェクトが想定されている場合
-            if ($resource->models()->exists('id', $operation->type())) {
-                return $resource->models()->expectedKeys($operation->type(), $onlyRequired);
-            }
+            return $keys;
         }
 
         throw new AnnotationException("specified SWG\\Model not found. httpMethod:$httpMethod url:$url");
@@ -69,7 +72,7 @@ class Resources extends Collection
      *
      * @param array $apis
      * @param string $httpMethod
-     * @return Operation|bool
+     * @return \SwaggerAssert\Annotation\Resources\Resource\Apis\Api\Operations\Operation|false
      */
     private function pickOperation($apis, $httpMethod)
     {

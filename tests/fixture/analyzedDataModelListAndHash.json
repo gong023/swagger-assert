@@ -1,0 +1,76 @@
+{
+    "Nests": {
+        "apis": [
+            {
+                "description": "list and hash test case",
+                "operations": [
+                    {
+                        "method": "GET",
+                        "nickname": "[GET]complexArrayTestCase",
+                        "notes": "api which has list and hash",
+                        "parameters": [
+                            {
+                                "description": "something id",
+                                "name": "sampleId",
+                                "paramType": "path",
+                                "required": true,
+                                "type": "string"
+                            }
+                        ],
+                        "responseMessages": [
+                            {
+                                "code": 500,
+                                "message": "internal error1"
+                            }
+                        ],
+                        "summary": "nest model",
+                        "type": "entranceModel"
+                    }
+                ],
+                "path": "/complex/{sampleId}"
+            }
+        ],
+        "basePath": "dummy string",
+        "models": {
+            "entranceModel": {
+                "description": "api has list and hash",
+                "id": "entranceModel",
+                "properties": {
+                    "refInKey": {
+                        "$ref": "referencedModel",
+                        "description": "reference another Model",
+                        "type": "string"
+                    },
+                    "key2": {
+                        "description": "simple key",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "refInKey",
+                    "key2"
+                ]
+            },
+            "referencedModel": {
+                "description": "api hash list and hash",
+                "id": "referencedModel",
+                "properties": {
+                    "referenced1": {
+                        "description": "referenced by refInKey",
+                        "type": "string"
+                    },
+                    "referenced2": {
+                        "description": "referenced by refInKey too.",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "referenced1",
+                    "referenced2"
+                ]
+            }
+        },
+        "resourcePath": "complexApi",
+        "swaggerVersion": "1.2"
+    }
+}

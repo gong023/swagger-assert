@@ -19,6 +19,42 @@ class ResourcesTest extends TestBase
 
     /**
      * @test
+     */
+    public function expectedKeysWithListAndHashOnlyRequiredTrue()
+    {
+        $resources = new Resources($this->fixture('analyzedDataModelListAndHash'));
+        $ret = $resources->expectedKeys('GET', '/complex/{sampleId}', true);
+        $expected = [
+            'refInKey' => ['referenced1', 'referenced2'],
+            'key2'
+        ];
+
+        $this->assertEquals($expected, $ret);
+    }
+
+    /**
+     * @test
+     */
+    public function expectedKeysWithItemRefOnlyRequiredTrue()
+    {
+        $resources = new Resources($this->fixture('analyzedDataModelNested'));
+        $ret = $resources->expectedKeys('POST', '/nest/{sampleId}', true);
+        $expected = [
+            'refInKey'  => ['referenced1', 'referenced2'],
+            'refInKey2' => [
+                'referenced2-1' => [
+                    'referenced3-1' => [
+                        'referenced4-1', 'referenced4-2'
+                    ]
+                ]
+            ]
+        ];
+
+        $this->assertEquals($expected, $ret);
+    }
+
+    /**
+     * @test
      * @param string $method
      * @param string $url
      * @dataProvider invalidMethodAndUrlProvider
@@ -40,26 +76,5 @@ class ResourcesTest extends TestBase
             ['GET', 'invalid url'],
             ['invalid method', '/simple/{sampleId}'],
         ];
-    }
-
-    /**
-     * @test
-     */
-    public function expectedKeysWithItemRef()
-    {
-        $resources = new Resources($this->fixture('analyzedDataModelNested'));
-        $ret = $resources->expectedKeys('POST', '/nest/{sampleId}', true);
-        $expected = [
-            'refInKey'  => ['referenced1', 'referenced2'],
-            'refInKey2' => [
-                'referenced2-1' => [
-                    'referenced3-1' => [
-                        'referenced4-1', 'referenced4-2'
-                    ]
-                ]
-            ]
-        ];
-
-        $this->assertEquals($expected, $ret);
     }
 }
