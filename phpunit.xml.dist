@@ -3,17 +3,22 @@
 <phpunit bootstrap="tests/bootstrap.php" colors="true">
     <testsuites>
         <testsuite name="SwaggerAssert Test Suite">
-            <directory>tests/SwaggerAssert/</directory>
+            <directory suffix="Test.php">tests/SwaggerAssert/</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory suffix=".php">src/SwaggerAssert/</directory>
+            <directory>.</directory>
+            <exclude>
+                <directory>./tests</directory>
+                <directory>./vendor</directory>
+                <directory>./build</directory>
+            </exclude>
         </whitelist>
     </filter>
 
     <logging>
-        <log type="coverage-php" target="build/logs/clover.xml" />
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
     </logging>
 </phpunit>
