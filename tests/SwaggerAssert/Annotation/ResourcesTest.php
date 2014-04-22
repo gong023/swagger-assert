@@ -59,7 +59,7 @@ class ResourcesTest extends TestBase
      * @param string $url
      * @dataProvider invalidMethodAndUrlProvider
      * @expectedException \SwaggerAssert\Exception\AnnotationException
-     * @expectedExceptionMessage specified SWG\Model not found.
+     * @expectedExceptionMessage SWG\Model not found. you must write SWG\Operation TYPE and SWG\Model ID correctly, or use $ref key
      */
     public function expectedKeysNotFound($method, $url)
     {

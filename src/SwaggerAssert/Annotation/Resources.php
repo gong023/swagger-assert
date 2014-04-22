@@ -49,21 +49,14 @@ class Resources extends Collection
                 continue;
             }
 
-            $keys = [];
-            if ($resource->models()->exists('id', $operation->type())) {
-                $keys = $resource->models()->expectedKeys($operation->type(), $onlyRequired);
-                if ($operation->hasItemsRef()) {
-                    $itemRef = $operation->itemRef();
-                    $keys[$itemRef] = $resource->models()->expectedKeys($itemRef, $onlyRequired);
-                }
-            } else if ($operation->hasItemsRef()) {
-                $keys = $resource->models()->expectedKeys($operation->itemsRef(), $onlyRequired);
+            $keys = $this->pickExpectedKeysRecursively($resource->models(), $operation, $onlyRequired);
+            if ($keys !== false) {
+                return $keys;
             }
-
-            return $keys;
         }
 
-        throw new AnnotationException("specified SWG\\Model not found. httpMethod:$httpMethod url:$url");
+        $message = "SWG\\Model not found. you must write SWG\\Operation TYPE and SWG\\Model ID correctly, or use \$ref key. httpMethod:$httpMethod url:$url";
+        throw new AnnotationException($message);
     }
 
     /**
@@ -82,6 +75,33 @@ class Resources extends Collection
             }
 
             return $api->operations()->pick('method', $httpMethod);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param \SwaggerAssert\Annotation\Resources\Resource\Models $models
+     * @param \SwaggerAssert\Annotation\Resources\Resource\Apis\Api\Operations\Operation $operation
+     * @param bool $onlyRequired
+     * @return array|bool
+     */
+    private function pickExpectedKeysRecursively($models, $operation, $onlyRequired)
+    {
+        // API structure is list
+        if ($operation->hasItemsRef()) {
+            return $models->expectedKeys($operation->itemsRef(), $onlyRequired);
+        }
+
+        // API structure is hash
+        if ($models->exists('id', $operation->type())) {
+            $keys = $models->expectedKeys($operation->type(), $onlyRequired);
+            // hash has list
+            if ($operation->hasItemsRef()) {
+                $keys[$operation->itemsRef()] = $this->pickExpectedKeysRecursively($models, $operation, $onlyRequired);
+            }
+
+            return $keys;
         }
 
         return false;
