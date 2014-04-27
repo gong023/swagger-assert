@@ -5,6 +5,8 @@ namespace SwaggerAssert\Compare;
 use SwaggerAssert\Compare;
 use SwaggerAssert\Exception\PickException;
 use SwaggerAssert\Pick\PickResponseAndAnnotation;
+use PHPUnit_Framework_ComparatorFactory;
+use SebastianBergmann\Diff\Differ;
 
 /**
  * Class CompareResponseAndAnnotation
@@ -30,12 +32,25 @@ class CompareResponseAndAnnotation extends Compare
         try {
             $this->pick->execute();
         } catch (PickException $e) {
+            // 別に catch しなくていい
             return ['isSuccess' => false, 'failMessage' => $e->getMessage()];
         }
 
+        $comparatorFactory = PHPUnit_Framework_ComparatorFactory::getDefaultInstance();
+
+        try {
+            $comparetor = $comparatorFactory->getComparatorFor($this->pick->expected(), $this->pick->actual());
+            $comparetor->assertEquals($this->pick->actual(), $this->pick->expected(), 0, false, false);
+        } catch (\PHPUnit_Framework_ComparisonFailure $e) {
+            // TODO:自分のところのエラーエクセプションに差し替え
+            $messageHead = "Failed asserting that API response and swagger document are equal.\n";
+            $differ = new Differ("--- Response\n +++ Swagger\n");
+            print_r($messageHead . $differ->diff($e->getExpectedAsString(), $e->getActualAsString()));
+        }
+
         return [
-            'isSuccess'   => $this->isSuccess(),
-            'failMessage' => $this->failMessage()
+            'isSuccess'   => true,
+            'failMessage' => 'dummy'
         ];
     }
 
