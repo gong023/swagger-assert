@@ -63,7 +63,7 @@ class ModelsTest extends TestBase
     /**
      * @test
      * @expectedException \SwaggerAssert\Exception\AnnotationException
-     * @expectedExceptionMessage specified SWG\Model is not written your doc. modelId:not exists
+     * @expectedexceptionmessage specified SWG\Model is not written in your doc.
      */
     public function expectedKeysWithInvalidModelId()
     {
