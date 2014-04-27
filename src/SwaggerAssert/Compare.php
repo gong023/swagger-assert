@@ -13,11 +13,4 @@ abstract class Compare
      * @return array
      */
     abstract public function execute();
-
-    /**
-     * fail message when compared keys do not match
-     *
-     * @return string
-     */
-    abstract protected function failMessage();
 }

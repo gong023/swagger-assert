@@ -3,9 +3,6 @@
     "description": "enable to assert the swagger documented keys and API response",
     "type": "library",
     "keywords": ["api", "rest", "swagger", "test", "assert"],
-    "require-dev": {
-        "phpunit/phpunit": "3.7.*"
-    },
     "license": "MIT",
     "authors": [
         {
@@ -15,7 +12,8 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "zircote/swagger-php": "0.9.0"
+        "zircote/swagger-php": "0.9.*",
+        "phpunit/phpunit": "4.0.0"
     },
     "require-dev": {
       "satooshi/php-coveralls": "dev-master"
