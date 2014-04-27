@@ -2,6 +2,7 @@
 
 namespace SwaggerAssert\Annotation\Resources\Resource;
 
+use SwaggerAssert\Annotation;
 use SwaggerAssert\Annotation\Collection;
 use SwaggerAssert\Annotation\Resources\Resource\Models\Model;
 use SwaggerAssert\Exception\AnnotationException;
@@ -40,7 +41,9 @@ class Models extends Collection
     public function expectedKeys($modelId, $onlyRequired)
     {
         if (! $this->exists('id', $modelId)) {
-            throw new AnnotationException("specified SWG\\Model is not written your doc. modelId:$modelId");
+            $url = Annotation::$url;
+            $httpMethod = Annotation::$httpMethod;
+            throw new AnnotationException("specified SWG\\Model is not written in your doc. httpMethod: $httpMethod, url: $url, modelId: $modelId");
         }
 
         $values = [];
