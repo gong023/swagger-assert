@@ -1,6 +1,7 @@
 <?php
 namespace SwaggerAssert\Annotation;
 
+use SwaggerAssert\Annotation;
 use SwaggerAssert\Exception\AnnotationException;
 
 /**
@@ -29,7 +30,9 @@ class Individual
         if (empty($this->resource[$documentedVal])) {
             $class = explode('\\', get_class($this));
             $class = array_pop($class);
-            throw new AnnotationException("specified SWG\\$class $documentedVal is not written in your doc.");
+            $url = Annotation::$url;
+            $httpMethod = Annotation::$httpMethod;
+            throw new AnnotationException("specified SWG\\$class $documentedVal is not written in your doc. httpMethod: $httpMethod, url: $url");
         }
 
         return $this->resource[$documentedVal];

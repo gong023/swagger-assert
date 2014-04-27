@@ -29,7 +29,7 @@ class CompareResponseAndAnnotation extends Compare
     {
         $this->pick = $pick;
         $this->comparatorFactory = PHPUnit_Framework_ComparatorFactory::getDefaultInstance();
-        $this->differ = new Differ("--- Response\n +++ Swagger\n");
+        $this->differ = new Differ("--- Response\n+++ Swagger\n");
     }
 
     /**

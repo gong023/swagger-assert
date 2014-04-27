@@ -48,7 +48,7 @@ class SwaggerAssert
      * @param string $httpMethod
      * @param string $url
      * @param bool $onlyRequired
-     * @return array
+     * @return bool
      */
     public static function responseHasSwaggerKeys($response, $httpMethod, $url, $onlyRequired = true)
     {

@@ -10,10 +10,10 @@ use SwaggerAssert\Annotation\Resources;
 class Annotation
 {
     /** @var string $httpMethod */
-    private $httpMethod;
+    public static $httpMethod;
 
     /** @var string $url */
-    private $url;
+    public static $url;
 
     /** @var array $analyzedData */
     private $analyzedData;
@@ -29,8 +29,8 @@ class Annotation
      */
     public function __construct($httpMethod, $url, $analyzedData, $onlyRequired)
     {
-        $this->httpMethod = $httpMethod;
-        $this->url = $url;
+        self::$httpMethod = $httpMethod;
+        self::$url = $url;
         $this->analyzedData = $analyzedData;
         $this->onlyRequired = $onlyRequired;
     }
@@ -42,7 +42,7 @@ class Annotation
     {
         $resources = new Resources($this->analyzedData);
 
-        return $resources->expectedKeys($this->httpMethod, $this->url, $this->onlyRequired);
+        return $resources->expectedKeys(self::$httpMethod, self::$url, $this->onlyRequired);
     }
 }
 
