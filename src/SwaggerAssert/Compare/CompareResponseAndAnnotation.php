@@ -4,7 +4,6 @@ namespace SwaggerAssert\Compare;
 
 use SwaggerAssert\Compare;
 use SwaggerAssert\Exception\CompareException;
-use SwaggerAssert\Pick\PickResponseAndAnnotation;
 use PHPUnit_Framework_ComparatorFactory;
 use SebastianBergmann\Diff\Differ;
 
@@ -13,7 +12,7 @@ use SebastianBergmann\Diff\Differ;
  */
 class CompareResponseAndAnnotation extends Compare
 {
-    /** @var PickResponseAndAnnotation $pick */
+    /** @var \SwaggerAssert\Pick\PickResponseAndAnnotation $pick */
     private $pick;
 
     /** @var \PHPUnit_Framework_ComparatorFactory */
@@ -23,11 +22,12 @@ class CompareResponseAndAnnotation extends Compare
     private $differ;
 
     /**
-     * @param PickResponseAndAnnotation $pick
+     * @param \SwaggerAssert\Pick\PickResponseAndAnnotation $pick
      */
-    public function __construct(PickResponseAndAnnotation $pick)
+    public function __construct($pick)
     {
         $this->pick = $pick;
+        $this->pick->execute();
         $this->comparatorFactory = PHPUnit_Framework_ComparatorFactory::getDefaultInstance();
         $this->differ = new Differ("--- Response\n+++ Swagger\n");
     }
@@ -37,17 +37,41 @@ class CompareResponseAndAnnotation extends Compare
      */
     public function execute()
     {
-        $this->pick->execute();
+        return $this->assertValuesRecursively($this->pick->expected(), $this->pick->actual());
+    }
 
-        try {
-            $comparator = $this->comparatorFactory->getComparatorFor($this->pick->expected(), $this->pick->actual());
-            $comparator->assertEquals($this->pick->actual(), $this->pick->expected(), 0, false, false);
-        } catch (\PHPUnit_Framework_ComparisonFailure $e) {
-            $messageHead = "Failed asserting that API response and swagger document are equal.\n";
-            throw new CompareException($messageHead . $this->differ->diff($e->getExpectedAsString(), $e->getActualAsString()));
+    /**
+     * @param mixed $expected
+     * @param mixed $actual
+     * @return bool
+     * @throws CompareException
+     */
+    private function assertValuesRecursively($expected, $actual)
+    {
+        foreach ($actual as $actualKey => $actualVal) {
+            if (is_array($actualVal)) {
+                $this->assertValuesRecursively($expected, $actual[$actualKey]);
+
+                continue;
+            }
+
+            $this->emulateAssertEquals(sort($expected), sort($actual));
         }
 
         return true;
     }
-}
 
+    /**
+     * @throws CompareException
+     */
+    private function emulateAssertEquals($expected, $actual)
+    {
+        try {
+            $comparator = $this->comparatorFactory->getComparatorFor($expected, $actual);
+            $comparator->assertEquals($actual, $expected, 0, false, false);
+        } catch (\PHPUnit_Framework_ComparisonFailure $e) {
+            $messageHead = "Failed asserting that API response and swagger document are equal.\n";
+            throw new CompareException($messageHead . $this->differ->diff($e->getExpectedAsString(), $e->getActualAsString()));
+        }
+    }
+}
