@@ -3,15 +3,15 @@
 namespace SwaggerAssert\Annotation\Resources\Resource;
 
 use SwaggerAssert\Annotation;
+use SwaggerAssert\Container\Expected;
 use SwaggerAssert\Annotation\Collection;
 use SwaggerAssert\Annotation\Resources\Resource\Models\Model;
 use SwaggerAssert\Exception\AnnotationException;
 
 /**
- * SWG\Modelをコレクションするクラス
+ * collection of SWG\Model
  *
  * Class Models
- * @package SwaggerAssert\Annotation\Resources\Resource
  */
 class Models extends Collection
 {
@@ -19,8 +19,6 @@ class Models extends Collection
     protected $collections = [];
 
     /**
-     * コンストラクタ
-     *
      * @param array $resources
      */
     public function __construct($resources)
@@ -31,14 +29,14 @@ class Models extends Collection
     }
 
     /**
-     * modelIdからアサーションに必要なkeyの配列を返す
+     * build instance of Expected by $modelId
      *
      * @param string $modelId
      * @param bool $onlyRequired
-     * @return array
+     * @return Expected
      * @throws AnnotationException
      */
-    public function expectedKeys($modelId, $onlyRequired)
+    public function buildExpectedByModelId($modelId, $onlyRequired)
     {
         if (! $this->exists('id', $modelId)) {
             $url = Annotation::$url;
@@ -46,31 +44,17 @@ class Models extends Collection
             throw new AnnotationException("specified SWG\\Model is not written in your doc. httpMethod: $httpMethod, url: $url, modelId: $modelId");
         }
 
-        $values = [];
+        $expected = new Expected();
         foreach ($this->pick('id', $modelId)->properties($onlyRequired)->getCollection() as $property) {
-            $values = array_merge($values, $this->referencedKeys($property, $onlyRequired));
+            /** @var $property \SwaggerAssert\Annotation\Resources\Resource\Models\Model\Properties\Property */
+            if ($property->hasRef()) {
+                $expected->push($property->key(), $this->buildExpectedByModelId($property->refModelId(), $onlyRequired));
+                continue;
+            }
+
+            $expected->push($property->key());
         }
 
-        return $values;
-    }
-
-    /**
-     * Propertyが参照しているModelのkey一覧を返す
-     * この関数はexpectedKeysWithNotOnlyRequireから再度呼び出されており、擬似的な再帰になっている
-     * 循環参照のように見えるが必ず返り値があるので大丈夫
-     *
-     * @param \SwaggerAssert\Annotation\Resources\Resource\Models\Model\Properties\Property $property
-     * @param bool $onlyRequired
-     * @return array
-     */
-    public function referencedKeys($property, $onlyRequired)
-    {
-        if ($property->hasRef()) {
-            $refModelId = $property->refModelId();
-            $values = $this->expectedKeys($refModelId, $onlyRequired);
-            return [$property->key() => $values];
-        }
-
-        return [$property->key()];
+        return $expected;
     }
 }

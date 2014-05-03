@@ -32,13 +32,13 @@ class Container
      */
     public function keys()
     {
-        return get_object_vars($this);
+        return array_keys(get_object_vars($this));
     }
 
     /**
      * @return array
      */
-    public function values()
+    public function references()
     {
         $values = [];
         foreach ($this->keys() as $key) {

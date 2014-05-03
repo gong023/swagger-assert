@@ -90,12 +90,12 @@ class Resources extends Collection
     {
         // API structure is list
         if ($operation->hasItemsRef()) {
-            return $models->expectedKeys($operation->itemsRef(), $onlyRequired);
+            return $models->buildExpectedByModelId($operation->itemsRef(), $onlyRequired);
         }
 
         // API structure is hash
         if ($models->exists('id', $operation->type())) {
-            $keys = $models->expectedKeys($operation->type(), $onlyRequired);
+            $keys = $models->buildExpectedByModelId($operation->type(), $onlyRequired);
             // hash has list
             if ($operation->hasItemsRef()) {
                 $keys[$operation->itemsRef()] = $this->pickExpectedKeysRecursively($models, $operation, $onlyRequired);

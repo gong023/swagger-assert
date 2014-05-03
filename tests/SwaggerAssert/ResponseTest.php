@@ -6,19 +6,22 @@ class ResponseTest extends TestBase
 {
     /**
      * @test
-     * @dataProvider getKeysProvider
+     * @param array $rowData
+     * @param array $keys
+     * @dataProvider parseProvider
      */
-    public function getKeys($rowData, $expected)
+    public function parse($rowData, $keys)
     {
         $response = new Response($rowData);
+        $parsed = $response->parse();
 
-        $this->assertEquals($expected, $response->getKeys());
+        $this->assertEquals($keys, $parsed->keys());
     }
 
     /**
      * @return array
      */
-    public static function getKeysProvider()
+    public static function parseProvider()
     {
         return [
             [
@@ -27,7 +30,7 @@ class ResponseTest extends TestBase
             ],
             [
                 ['a' => 'hoge', 'b' => 'fuga', 'c' => ['d' => 'foo', 'e' => ['f' => 'bar']]],
-                ['a', 'b', 'c' => ['d', 'e' => ['f']]]
+                ['a', 'b', 'c']
             ]
         ];
     }

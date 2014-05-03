@@ -2,6 +2,8 @@
 
 namespace SwaggerAssert;
 
+use SwaggerAssert\Container\Actual;
+
 /**
  * Class Response
  */
@@ -18,24 +20,24 @@ class Response
     /**
      * APIレスポンスの配列より、アサーションすべきkeyの配列を取得する
      *
-     * @return array
+     * @return Actual
      */
-    public function getKeys()
+    public function parse()
     {
-        return $this->getKeysRecursively($this->rowData);
+        return $this->parseRecursively($this->rowData);
     }
 
     /**
      * @param array $response
-     * @return array
+     * @return Actual
      */
-    private function getKeysRecursively($response)
+    private function parseRecursively($response)
     {
-        $result = [];
+        $actual = new Actual();
         foreach ($response as $key => $val) {
-            is_array($val) ? $result[$key] = $this->getKeysRecursively($val) : $result[] = $key;
+            is_array($val) ? $actual->push($key, $this->parseRecursively($val)) : $actual->push($key);
         }
 
-        return $result;
+        return $actual;
     }
 }

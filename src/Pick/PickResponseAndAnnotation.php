@@ -27,7 +27,7 @@ class PickResponseAndAnnotation extends Pick
     {
         try {
             $this->expected = $this->readableSort($this->annotation->getKeys());
-            $this->actual   = $this->readableSort($this->response->getKeys());
+            $this->actual   = $this->readableSort($this->response->parse());
         } catch (AnnotationException $e) {
             throw new PickException($e->getMessage());
         }

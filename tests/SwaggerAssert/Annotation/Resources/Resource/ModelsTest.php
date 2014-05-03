@@ -24,19 +24,30 @@ class ModelsTest extends TestBase
      */
     public function expectedKeysWithOnlyRequiredTrue()
     {
-        $ret = $this->subject->expectedKeys('entranceModel', true);
-        $expected = [
-            'refInKey'  => ['referenced1', 'referenced2'],
-            'refInKey2' => [
-                'referenced2-1' => [
-                    'referenced3-1' => [
-                        'referenced4-1', 'referenced4-2'
-                    ]
-                ]
-            ]
-        ];
+        /**
+         * built structure may be...
+         * Expected Object (
+         *       [refInKey] => Expected Object (
+         *           [referenced1] => null
+         *           [referenced2] => null
+         *       )
+         *       [refInKey2] => Expected Object (
+         *           [referenced2-1] => Expected Object (
+         *               [referenced3-1] => Expected Object (
+         *                   [referenced4-1] => null
+         *                   [referenced4-2] => null
+         *               )
+         *           )
+         *       )
+         *   )
+         */
+        $built = $this->subject->buildExpectedByModelId('entranceModel', true);
 
-        $this->assertSame($expected, $ret);
+        $this->assertEquals(['refInKey', 'refInKey2'], $built->keys());
+        $this->assertEquals(['referenced1', 'referenced2'], $built->refInKey->keys());
+        $this->assertEquals(['referenced2-1'], $built->refInKey2->keys());
+        $escapeA = 'referenced2-1'; $escapeB = 'referenced3-1';
+        $this->assertEquals(['referenced4-1', 'referenced4-2'], $built->refInKey2->$escapeA->$escapeB->keys());
     }
 
     /**
@@ -44,62 +55,18 @@ class ModelsTest extends TestBase
      */
     public function expectedKeysWithNotOnlyRequired()
     {
-        $ret = $this->subject->expectedKeys('entranceModel', false);
-        $expected = [
-            'refInKey'  => ['referenced1', 'referenced2'],
-            'refInKey2' => [
-                'referenced2-1' => [
-                    'referenced3-1' => [
-                        'referenced4-1', 'referenced4-2'
-                    ]
-                ]
-            ],
-            'refInKey3'
-        ];
+        $built = $this->subject->buildExpectedByModelId('entranceModel', false);
 
-        $this->assertSame($expected, $ret);
+        $this->assertEquals(['refInKey', 'refInKey2', 'refInKey3'], $built->keys());
     }
 
     /**
      * @test
      * @expectedException \SwaggerAssert\Exception\AnnotationException
-     * @expectedexceptionmessage specified SWG\Model is not written in your doc.
+     * @expectedExceptionMessage specified SWG\Model is not written in your doc.
      */
     public function expectedKeysWithInvalidModelId()
     {
-        $this->subject->expectedKeys('not exists', false);
-    }
-
-    /**
-     * @test
-     */
-    public function referencedKeysWithNotOnlyRequired()
-    {
-        $fixture = $this->fixture('analyzedDataModelNested');
-        $property = new Property('refInKey', $fixture['Nests']['models']['entranceModel']['properties']['refInKey']);
-        $ret = $this->subject->referencedKeys($property, false);
-
-        $this->assertSame(['refInKey' => ['referenced1', 'referenced2']], $ret);
-    }
-
-    /**
-     * @test
-     */
-    public function referencedKeysWithNotOnlyRequiredRecursively()
-    {
-        $fixture = $this->fixture('analyzedDataModelNested');
-        $property = new Property('refInKey2', $fixture['Nests']['models']['entranceModel']['properties']['refInKey2']);
-        $ret = $this->subject->referencedKeys($property, false);
-        $expected = [
-            'refInKey2' => [
-                'referenced2-1' => [
-                    'referenced3-1' => [
-                        'referenced4-1', 'referenced4-2'
-                    ]
-                ]
-            ]
-        ];
-
-        $this->assertSame($expected, $ret);
+        $this->subject->buildExpectedByModelId('not exists', false);
     }
 }
