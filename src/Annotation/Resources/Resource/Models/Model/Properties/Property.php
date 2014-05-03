@@ -67,4 +67,24 @@ class Property extends Individual
     {
         return $this->resource['$ref'];
     }
+
+    /**
+     * このプロパティがassocで他のモデルを参照しているかどうかをboolで返す
+     *
+     * @return bool
+     */
+    public function hasItemsRef()
+    {
+        return isset($this->resource['items']) && isset($this->resource['items']['$ref']);
+    }
+
+    /**
+     * このプロパティがassocで参照しているModelのidを返す
+     *
+     * @return string
+     */
+    public function itemsRefModelId()
+    {
+        return $this->resource['items']['$ref'];
+    }
 }

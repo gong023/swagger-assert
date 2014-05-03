@@ -1,0 +1,54 @@
+{
+    "Assoc": {
+        "basePath": "dummy",
+        "swaggerVersion": "1.2",
+        "resourcePath": "assoc",
+        "apis": [
+            {
+                "path": "/assoc",
+                "description": "assoc api structure",
+                "operations": [
+                    {
+                        "method": "GET",
+                        "nickname": "assoc",
+                        "type": "AssocMember"
+                    }
+                ]
+            }
+        ],
+        "models": {
+            "AssocMember": {
+                "id": "AssocMember",
+                "properties": {
+                    "assocKeys": {
+                        "description": "member array",
+                        "type": "array",
+                        "items": {
+                            "$ref": "SimpleMember"
+                        }
+                    }
+                },
+                "required": [
+                    "assocKeys"
+                ]
+            },
+            "SimpleMember": {
+                "id": "SimpleMember",
+                "properties": {
+                    "key1": {
+                        "description": "key 1",
+                        "type": "integer"
+                    },
+                    "key2": {
+                        "description": "key 2",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "key1",
+                    "key2"
+                ]
+            }
+        }
+    }
+}

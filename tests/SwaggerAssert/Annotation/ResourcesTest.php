@@ -12,18 +12,21 @@ class ResourcesTest extends TestBase
     public function expectedKeysWithOnlyRequiredTrue()
     {
         $resources = new Resources($this->fixture('analyzedDataSimple'));
-        $ret = $resources->expectedKeys('GET', '/simple/{sampleId}', true);
+        $expected = $resources->expected('GET', '/simple/{sampleId}', true);
 
-        $this->assertEquals(["simpleKey1", "simpleKey2"], $ret);
+        $this->assertEquals(["simpleKey1", "simpleKey2"], $expected->keys());
     }
 
+    /**
+     * @test
+     */
     public function expectedKeysWithListOnlyRequiredTrue()
     {
         $resources = new Resources($this->fixture('analyzedDataAssoc'));
-        $ret = $resources->expectedKeys('GET', '/assoc', true);
-        $expected =  ['a', 'b', 'c'];
+        $expected = $resources->expected('GET', '/assoc', true);
 
-        $this->assertEquals($expected, $ret);
+        $this->assertEquals(['assocKeys'], $expected->keys());
+        $this->assertEquals(['key1', 'key2'], $expected->assocKeys->keys());
     }
 
     /**
@@ -32,13 +35,20 @@ class ResourcesTest extends TestBase
     public function expectedKeysWithListAndHashOnlyRequiredTrue()
     {
         $resources = new Resources($this->fixture('analyzedDataModelListAndHash'));
-        $ret = $resources->expectedKeys('GET', '/complex/{sampleId}', true);
-        $expected = [
-            'refInKey' => ['referenced1', 'referenced2'],
-            'key2'
-        ];
+        /**
+         * built structure may be...
+         * Expected Object (
+         *       [refInKey] => Expected Object (
+         *           [referenced1] => null
+         *           [referenced2] => null
+         *       )
+         *       [key2] => null
+         * )
+         */
+        $expected = $resources->expected('GET', '/complex/{sampleId}', true);
 
-        $this->assertEquals($expected, $ret);
+        $this->assertEquals(['refInKey', 'key2'], $expected->keys());
+        $this->assertEquals(['referenced1', 'referenced2'], $expected->refInKey->keys());
     }
 
     /**
@@ -47,19 +57,26 @@ class ResourcesTest extends TestBase
     public function expectedKeysWithItemRefOnlyRequiredTrue()
     {
         $resources = new Resources($this->fixture('analyzedDataModelNested'));
-        $ret = $resources->expectedKeys('POST', '/nest/{sampleId}', true);
-        $expected = [
-            'refInKey'  => ['referenced1', 'referenced2'],
-            'refInKey2' => [
-                'referenced2-1' => [
-                    'referenced3-1' => [
-                        'referenced4-1', 'referenced4-2'
-                    ]
-                ]
-            ]
-        ];
+        /**
+         * built structure may be...
+         * Expected Object (
+         *       [refInKey] => Expected Object (
+         *           [referenced1] => null
+         *           [referenced2] => null
+         *       )
+         *       [refInKey2] => Expected Object (
+         *           [referenced2-1] => Expected Object (
+         *               [referenced3-1] => Expected Object (
+         *                   [referenced4-1] => null
+         *                   [referenced4-2] => null
+         *               )
+         *           )
+         *       )
+         *   )
+         */
+        $expected = $resources->expected('POST', '/nest/{sampleId}', true);
 
-        $this->assertEquals($expected, $ret);
+        $this->assertEquals(['refInKey', 'refInKey2'], $expected->keys());
     }
 
     /**
@@ -73,7 +90,7 @@ class ResourcesTest extends TestBase
     public function expectedKeysNotFound($method, $url)
     {
         $resources = new Resources($this->fixture('analyzedDataSimple'));
-        $resources->expectedKeys($method, $url, true);
+        $resources->expected($method, $url, true);
     }
 
     /**

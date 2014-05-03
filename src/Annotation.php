@@ -42,7 +42,7 @@ class Annotation
     {
         $resources = new Resources($this->analyzedData);
 
-        return $resources->expectedKeys(self::$httpMethod, self::$url, $this->onlyRequired);
+        return $resources->expected(self::$httpMethod, self::$url, $this->onlyRequired);
     }
 }
 

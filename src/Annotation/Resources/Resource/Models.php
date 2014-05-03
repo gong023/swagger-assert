@@ -46,9 +46,14 @@ class Models extends Collection
 
         $expected = new Expected();
         foreach ($this->pick('id', $modelId)->properties($onlyRequired)->getCollection() as $property) {
-            /** @var $property \SwaggerAssert\Annotation\Resources\Resource\Models\Model\Properties\Property */
+            /* @var $property \SwaggerAssert\Annotation\Resources\Resource\Models\Model\Properties\Property */
             if ($property->hasRef()) {
                 $expected->push($property->key(), $this->buildExpectedByModelId($property->refModelId(), $onlyRequired));
+                continue;
+            }
+
+            if ($property->hasItemsRef()) {
+                $expected->push($property->key(), $this->buildExpectedByModelId($property->itemsRefModelId(), $onlyRequired));
                 continue;
             }
 

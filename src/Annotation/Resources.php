@@ -35,11 +35,12 @@ class Resources extends Collection
      * @param string $httpMethod
      * @param string $url
      * @param bool $onlyRequired
-     * @return array
+     * @return \SwaggerAssert\Container\Expected
      * @throws AnnotationException
      */
-    public function expectedKeys($httpMethod, $url, $onlyRequired)
+    public function expected($httpMethod, $url, $onlyRequired)
     {
+        /* @var \SwaggerAssert\Annotation\Resources\Resource $resource */
         foreach ($this->collections as $resource) {
             if (! $resource->apis()->exists('path', $url)) {
                 continue;
@@ -49,9 +50,9 @@ class Resources extends Collection
                 continue;
             }
 
-            $keys = $this->pickExpectedKeysRecursively($resource->models(), $operation, $onlyRequired);
-            if ($keys !== false) {
-                return $keys;
+            $expected = $this->pickExpectedRecursively($resource->models(), $operation, $onlyRequired);
+            if ($expected !== false) {
+                return $expected;
             }
         }
 
@@ -69,6 +70,7 @@ class Resources extends Collection
      */
     private function pickOperation($apis, $httpMethod)
     {
+        /* @var \SwaggerAssert\Annotation\Resources\Resource\Apis\Api $api */
         foreach ($apis as $api) {
             if (! $api->operations()->exists('method', $httpMethod)) {
                 continue;
@@ -84,9 +86,9 @@ class Resources extends Collection
      * @param \SwaggerAssert\Annotation\Resources\Resource\Models $models
      * @param \SwaggerAssert\Annotation\Resources\Resource\Apis\Api\Operations\Operation $operation
      * @param bool $onlyRequired
-     * @return array|bool
+     * @return \SwaggerAssert\Container\Expected|bool
      */
-    private function pickExpectedKeysRecursively($models, $operation, $onlyRequired)
+    private function pickExpectedRecursively($models, $operation, $onlyRequired)
     {
         // API structure is list
         if ($operation->hasItemsRef()) {
@@ -95,13 +97,15 @@ class Resources extends Collection
 
         // API structure is hash
         if ($models->exists('id', $operation->type())) {
-            $keys = $models->buildExpectedByModelId($operation->type(), $onlyRequired);
+            $expected = $models->buildExpectedByModelId($operation->type(), $onlyRequired);
             // hash has list
+            /* no longer needed?
             if ($operation->hasItemsRef()) {
-                $keys[$operation->itemsRef()] = $this->pickExpectedKeysRecursively($models, $operation, $onlyRequired);
+                $expected[$operation->itemsRef()] = $this->pickExpectedRecursively($models, $operation, $onlyRequired);
             }
+            */
 
-            return $keys;
+            return $expected;
         }
 
         return false;
