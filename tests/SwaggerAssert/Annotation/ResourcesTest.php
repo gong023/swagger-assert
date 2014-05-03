@@ -17,6 +17,15 @@ class ResourcesTest extends TestBase
         $this->assertEquals(["simpleKey1", "simpleKey2"], $ret);
     }
 
+    public function expectedKeysWithListOnlyRequiredTrue()
+    {
+        $resources = new Resources($this->fixture('analyzedDataAssoc'));
+        $ret = $resources->expectedKeys('GET', '/assoc', true);
+        $expected =  ['a', 'b', 'c'];
+
+        $this->assertEquals($expected, $ret);
+    }
+
     /**
      * @test
      */

@@ -34,10 +34,13 @@ class CompareResponseAndAnnotation extends Compare
 
     /**
      * {@inheritdoc}
+     * @return bool
+     * @throws CompareException
      */
     public function execute()
     {
-        return $this->assertValuesRecursively($this->pick->expected(), $this->pick->actual());
+        // sort() は参照で行われるので別関数に分けている
+        return $this->assertValues($this->pick->expected(), $this->pick->actual());
     }
 
     /**
@@ -46,16 +49,17 @@ class CompareResponseAndAnnotation extends Compare
      * @return bool
      * @throws CompareException
      */
-    private function assertValuesRecursively($expected, $actual)
+    private function assertValues($expected, $actual)
     {
-        foreach ($actual as $actualKey => $actualVal) {
+        foreach ($actual as $actualVal) {
             if (is_array($actualVal)) {
-                $this->assertValuesRecursively($expected, $actual[$actualKey]);
-
+                $this->emulateAssertEquals(asort($expected), asort($actual));
                 continue;
             }
 
-            $this->emulateAssertEquals(sort($expected), sort($actual));
+            if (! in_array($actualVal, $expected)) {
+                throw new CompareException('nothing!!!');
+            }
         }
 
         return true;
