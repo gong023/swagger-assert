@@ -92,7 +92,7 @@ class CompareResponseAndAnnotationTest extends TestBase
      */
     private function createPickerMock($expectedMockVal, $actualMockVal)
     {
-        $pickerStub = $this->getMockBuilder('Comparator')->setMethods(['execute', 'expected', 'actual'])->getMock();
+        $pickerStub = $this->getMockBuilder('SwaggerAssert\PickInterface')->setMethods(['execute', 'expected', 'actual'])->getMock();
         $pickerStub->expects($this->any())->method('execute')->will($this->returnValue(null));
         $pickerStub->expects($this->any())->method('expected')->will($this->returnValue($expectedMockVal));
         $pickerStub->expects($this->any())->method('actual')->will($this->returnValue($actualMockVal));

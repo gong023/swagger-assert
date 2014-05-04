@@ -5,12 +5,17 @@ namespace SwaggerAssert;
  * Class Compare
  * conscious of command pattern
  */
-abstract class Compare
+interface CompareInterface
 {
+    /**
+     * @param PickInterface $pick
+     */
+    public function __construct(PickInterface $pick);
+
     /**
      * compare expected keys and actual keys
      *
      * @return array
      */
-    abstract public function execute();
+    public function execute();
 }

@@ -36,9 +36,9 @@ class Annotation
     }
 
     /**
-     * @return array
+     * @return \SwaggerAssert\Container\Expected
      */
-    public function getKeys()
+    public function getExpected()
     {
         $resources = new Resources($this->analyzedData);
 

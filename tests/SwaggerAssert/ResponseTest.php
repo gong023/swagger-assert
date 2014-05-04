@@ -13,7 +13,7 @@ class ResponseTest extends TestBase
     public function parse($rowData, $keys)
     {
         $response = new Response($rowData);
-        $parsed = $response->parse();
+        $parsed = $response->getActual();
 
         $this->assertEquals($keys, $parsed->keys());
     }

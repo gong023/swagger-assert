@@ -22,20 +22,20 @@ class Response
      *
      * @return Actual
      */
-    public function parse()
+    public function getActual()
     {
-        return $this->parseRecursively($this->rowData);
+        return $this->getActualRecursively($this->rowData);
     }
 
     /**
      * @param array $response
      * @return Actual
      */
-    private function parseRecursively($response)
+    private function getActualRecursively($response)
     {
         $actual = new Actual();
         foreach ($response as $key => $val) {
-            is_array($val) ? $actual->push($key, $this->parseRecursively($val)) : $actual->push($key);
+            is_array($val) ? $actual->push($key, $this->getActualRecursively($val)) : $actual->push($key);
         }
 
         return $actual;

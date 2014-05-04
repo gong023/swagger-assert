@@ -2,12 +2,18 @@
 
 namespace SwaggerAssert\Pick;
 
-use SwaggerAssert\Pick;
+use SwaggerAssert\PickInterface;
 use SwaggerAssert\Response;
 use SwaggerAssert\Annotation;
 
-class PickResponseAndAnnotation extends Pick
+class PickResponseAndAnnotation implements PickInterface
 {
+    /* @var array $expected */
+    protected $expected;
+
+    /* @var array $actual */
+    protected $actual;
+
     /**
      * @param Response $response
      * @param Annotation $annotation
@@ -23,7 +29,23 @@ class PickResponseAndAnnotation extends Pick
      */
     public function execute()
     {
-        $this->expected = $this->annotation->getKeys();
-        $this->actual   = $this->response->parse();
+        $this->expected = $this->annotation->getExpected();
+        $this->actual   = $this->response->getActual();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function expected()
+    {
+        return $this->expected;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function actual()
+    {
+        return $this->actual;
     }
 }

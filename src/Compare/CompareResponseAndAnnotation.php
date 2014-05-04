@@ -2,7 +2,8 @@
 
 namespace SwaggerAssert\Compare;
 
-use SwaggerAssert\Compare;
+use SwaggerAssert\CompareInterface;
+use SwaggerAssert\PickInterface;
 use SwaggerAssert\Exception\CompareException;
 use PHPUnit_Framework_ComparatorFactory;
 use SebastianBergmann\Diff\Differ;
@@ -10,21 +11,21 @@ use SebastianBergmann\Diff\Differ;
 /**
  * Class CompareResponseAndAnnotation
  */
-class CompareResponseAndAnnotation extends Compare
+class CompareResponseAndAnnotation implements CompareInterface
 {
-    /** @var \SwaggerAssert\Pick\PickResponseAndAnnotation $pick */
+    /* @var \SwaggerAssert\Pick\PickResponseAndAnnotation $pick */
     private $pick;
 
-    /** @var \PHPUnit_Framework_ComparatorFactory */
+    /* @var \PHPUnit_Framework_ComparatorFactory */
     private $comparatorFactory;
 
-    /** @var \SebastianBergmann\Diff\Differ  */
+    /* @var \SebastianBergmann\Diff\Differ  */
     private $differ;
 
     /**
-     * @param \SwaggerAssert\Pick\PickResponseAndAnnotation $pick
+     * @param \SwaggerAssert\PickInterface $pick
      */
-    public function __construct($pick)
+    public function __construct(PickInterface $pick)
     {
         $this->pick = $pick;
         $this->pick->execute();
