@@ -5,8 +5,6 @@ namespace SwaggerAssert\Pick;
 use SwaggerAssert\Pick;
 use SwaggerAssert\Response;
 use SwaggerAssert\Annotation;
-use SwaggerAssert\Exception\PickException;
-use SwaggerAssert\Exception\AnnotationException;
 
 class PickResponseAndAnnotation extends Pick
 {
@@ -25,11 +23,7 @@ class PickResponseAndAnnotation extends Pick
      */
     public function execute()
     {
-        try {
-            $this->expected = $this->readableSort($this->annotation->getKeys());
-            $this->actual   = $this->readableSort($this->response->parse());
-        } catch (AnnotationException $e) {
-            throw new PickException($e->getMessage());
-        }
+        $this->expected = $this->annotation->getKeys();
+        $this->actual   = $this->response->parse();
     }
 }

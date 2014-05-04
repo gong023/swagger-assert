@@ -32,7 +32,10 @@ class Container
      */
     public function keys()
     {
-        return array_keys(get_object_vars($this));
+        $keys = array_keys(get_object_vars($this));
+        sort($keys);
+
+        return $keys;
     }
 
     /**
@@ -46,6 +49,7 @@ class Container
                 $values[] = $this->$key;
             }
         }
+        ksort($values);
 
         return $values;
     }

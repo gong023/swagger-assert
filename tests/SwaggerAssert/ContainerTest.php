@@ -25,7 +25,7 @@ class ContainerTest extends TestBase
      */
     public function keysWithoutValue($subject)
     {
-        $this->assertEquals(['sample' => null], $subject->keys());
+        $this->assertEquals(['sample'], $subject->keys());
     }
 
     /**

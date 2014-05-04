@@ -35,29 +35,4 @@ abstract class Pick
     {
         return $this->actual;
     }
-
-    /**
-     * @param array $array
-     * @return array
-     */
-    public function readableSort($array)
-    {
-        $assoc = [];
-        $hash  = [];
-        foreach ($array as $key => $val) {
-            is_numeric($val) ? $assoc[] = $val : $hash[$key] = $val;
-        }
-
-        foreach ($hash as $key => $val) {
-            if (is_array($val)) {
-                $val = $this->readableSort($val);
-            }
-            $hash[$key] = $val;
-        }
-
-        sort($assoc);
-        asort($hash);
-
-        return array_merge($assoc, $hash);
-    }
 }

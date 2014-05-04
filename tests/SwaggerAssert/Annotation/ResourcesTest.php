@@ -47,7 +47,7 @@ class ResourcesTest extends TestBase
          */
         $expected = $resources->expected('GET', '/complex/{sampleId}', true);
 
-        $this->assertEquals(['refInKey', 'key2'], $expected->keys());
+        $this->assertEquals(['key2', 'refInKey'], $expected->keys());
         $this->assertEquals(['referenced1', 'referenced2'], $expected->refInKey->keys());
     }
 
