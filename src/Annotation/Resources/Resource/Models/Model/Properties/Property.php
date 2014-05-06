@@ -5,7 +5,7 @@ namespace SwaggerAssert\Annotation\Resources\Resource\Models\Model\Properties;
 use SwaggerAssert\Annotation\Individual;
 
 /**
- * SWG\Propertyのクラス
+ * class of SWG\Property
  */
 class Property extends Individual
 {
@@ -13,8 +13,6 @@ class Property extends Individual
     private $propertyKey;
 
     /**
-     * コンストラクタ
-     *
      * @param string $propertyKey
      * @param array $resource
      */
@@ -49,7 +47,7 @@ class Property extends Individual
     }
 
     /**
-     * このプロパティが他のモデルを参照しているかどうかをboolで返す
+     * return bool whether this property referenced another model or not
      *
      * @return bool
      */
@@ -59,7 +57,7 @@ class Property extends Individual
     }
 
     /**
-     * このプロパティが参照しているModelのidを返す
+     * return model id referenced this property
      *
      * @return string
      */
@@ -69,7 +67,7 @@ class Property extends Individual
     }
 
     /**
-     * このプロパティがassocで他のモデルを参照しているかどうかをboolで返す
+     * return bool whether this property references another collection or not
      *
      * @return bool
      */
@@ -79,7 +77,7 @@ class Property extends Individual
     }
 
     /**
-     * このプロパティがassocで参照しているModelのidを返す
+     * return model id referenced this property as collection
      *
      * @return string
      */

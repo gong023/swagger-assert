@@ -22,11 +22,11 @@ class ResourcesTest extends TestBase
      */
     public function expectedKeysWithListOnlyRequiredTrue()
     {
-        $resources = new Resources($this->fixture('analyzedDataAssoc'));
-        $expected = $resources->expected('GET', '/assoc', true);
+        $resources = new Resources($this->fixture('analyzedDataCollection'));
+        $expected = $resources->expected('GET', '/collection', true);
 
-        $this->assertEquals(['assocKeys'], $expected->keys());
-        $this->assertEquals(['key1', 'key2'], $expected->assocKeys->keys());
+        $this->assertEquals(['collectionKeys'], $expected->keys());
+        $this->assertEquals(['key1', 'key2'], $expected->collectionKeys->keys());
     }
 
     /**

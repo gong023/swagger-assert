@@ -35,14 +35,14 @@ class CompareResponseAndAnnotationTest extends TestBase
             [['c', 'b', 'a'], $sample],
             // actual is different order
             [$sample, ['c', 'b', 'a']],
-            // assoc
+            // collection
             [$sample, [$sample, $sample, $sample]],
-            // mix of assoc and hash
+            // mix of collection and hash
             [
                 ['a', 'b', 'c' => ['d', 'e']],
                 ['a', 'b', 'c' => [['d', 'e'], ['d', 'e']]]
             ],
-            // mixes of assoc and hash
+            // mixes of collection and hash
             [
                 ['a', 'b' => ['c', 'd'], 'e' => ['f', 'g']],
                 ['a', 'b' => [['c', 'd'], ['c', 'd']], 'e' => [['f', 'g'], ['f', 'g']]]

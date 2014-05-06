@@ -1,26 +1,26 @@
 {
-    "Assoc": {
+    "collection": {
         "basePath": "dummy",
         "swaggerVersion": "1.2",
-        "resourcePath": "assoc",
+        "resourcePath": "collection",
         "apis": [
             {
-                "path": "/assoc",
-                "description": "assoc api structure",
+                "path": "/collection",
+                "description": "collection api structure",
                 "operations": [
                     {
                         "method": "GET",
-                        "nickname": "assoc",
-                        "type": "AssocMember"
+                        "nickname": "collection",
+                        "type": "CollectionMember"
                     }
                 ]
             }
         ],
         "models": {
-            "AssocMember": {
-                "id": "AssocMember",
+            "collectionMember": {
+                "id": "CollectionMember",
                 "properties": {
-                    "assocKeys": {
+                    "collectionKeys": {
                         "description": "member array",
                         "type": "array",
                         "items": {
@@ -29,7 +29,7 @@
                     }
                 },
                 "required": [
-                    "assocKeys"
+                    "collectionKeys"
                 ]
             },
             "SimpleMember": {

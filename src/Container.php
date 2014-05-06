@@ -3,7 +3,7 @@ namespace SwaggerAssert;
 
 /**
  * Class Container
- * php array is not useful because assoc and hash are mixed
+ * php array is not useful because collection and hash are mixed
  */
 class Container
 {
