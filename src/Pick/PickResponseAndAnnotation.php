@@ -30,7 +30,7 @@ class PickResponseAndAnnotation implements PickInterface
     public function execute()
     {
         $this->expected = $this->annotation->getExpected();
-        $this->actual   = $this->response->getActual();
+        $this->actual   = $this->response->getActualByKeys();
     }
 
     /**

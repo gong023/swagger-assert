@@ -6,31 +6,104 @@ class ResponseTest extends TestBase
 {
     /**
      * @test
-     * @param array $rowData
-     * @param array $keys
-     * @dataProvider parseProvider
      */
-    public function parse($rowData, $keys)
+    public function getActualByKeys()
     {
-        $response = new Response($rowData);
-        $parsed = $response->getActual();
+        $this->markTestSkipped();
 
-        $this->assertEquals($keys, $parsed->keys());
+        $response = new Response(['a' => 'hoge', 'b' => 'fuga', 'c' => 'foo']);
+        $actual = $response->getActualByKeys();
+
+        $this->assertEquals(['a', 'b', 'c'], $actual->keys());
+    }
+
+    /**
+     * @test
+     */
+    public function getActualByKeysNested()
+    {
+        $this->markTestSkipped();
+
+        $response = new Response(['a' => 'hoge', 'b' => 'fuga', 'c' => ['d' => 'foo', 'e' => ['f' => 'bar']]]);
+        $actual = $response->getActualByKeys();
+
+        $this->assertEquals(['a', 'b', 'c'], $actual->keys());
+        $this->assertEquals(['d', 'e'], $actual->c->keys());
+    }
+
+    /**
+     * @test
+     */
+    public function getActualByKeysCollection()
+    {
+        $this->markTestSkipped();
+
+        $sample = ['a', 'b', 'c'];
+        $response = new Response([$sample, $sample]);
+        $actual = $response->getActualByKeys();
+
+        $this->assertEquals($sample, $actual->keys());
+    }
+
+    /**
+     * @test
+     * @group tmp
+     * @dataProvider collectionProvider
+     */
+    public function isCollectionWhichDoesNotHaveHashTrue($collection)
+    {
+        $subject = new Response([]);
+        $this->assertTrue($subject->isCollectionWhichDoesNotHaveHash($collection));
     }
 
     /**
      * @return array
      */
-    public static function parseProvider()
+    public static function collectionProvider()
     {
         return [
             [
-                ['a' => 'hoge', 'b' => 'fuga', 'c' => 'foo'],
-                ['a', 'b', 'c']
+                ['a', 'b', 'c'],
             ],
             [
-                ['a' => 'hoge', 'b' => 'fuga', 'c' => ['d' => 'foo', 'e' => ['f' => 'bar']]],
-                ['a', 'b', 'c']
+                [
+                    [['A' => 'a'], ['A' => 'b']],
+                    [['B' => 'c'], ['B' => 'd']],
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @test
+     * @group tmp
+     * @dataProvider hashProvider
+     */
+    public function isCollectionWhichDoesNotHaveHashFalse($hash)
+    {
+        $subject = new Response([]);
+        $this->assertFalse($subject->isCollectionWhichDoesNotHaveHash($hash));
+    }
+
+    /**
+     * @return array
+     */
+    public static function hashProvider()
+    {
+        return [
+            [
+                [['A' => 'a'], ['A' => 'b']],
+            ],
+            [
+                [
+                    'AA' => [['A' => 'a'], ['A' => 'b']],
+                    'BB' => [['B' => 'c'], ['B' => 'c']],
+                ]
+            ],
+            [
+                [
+                    'A' => ['a', 'b', 'c']
+                ]
             ]
         ];
     }
