@@ -47,7 +47,6 @@ class ResponseTest extends TestBase
 
     /**
      * @test
-     * @group tmp
      * @dataProvider collectionProvider
      */
     public function isCollectionWhichDoesNotHaveHashTrue($collection)
@@ -76,7 +75,6 @@ class ResponseTest extends TestBase
 
     /**
      * @test
-     * @group tmp
      * @dataProvider hashProvider
      */
     public function isCollectionWhichDoesNotHaveHashFalse($hash)

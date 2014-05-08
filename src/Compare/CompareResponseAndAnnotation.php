@@ -44,6 +44,24 @@ class CompareResponseAndAnnotation implements CompareInterface
         return $this->assertValues($this->pick->expected(), $this->pick->actual());
     }
 
+    public function _execute($expected = null, $actual = null)
+    {
+        if (is_null($expected)) {
+            $expected = $this->pick->expected();
+        }
+        if (is_null($actual)) {
+            $actual = $this->pick->actual();
+        }
+
+        $this->emulateAssertEquals($expected->keys(), $actual->keys());
+
+        $references = $expected->references();
+        if (isset($references)) {
+        }
+
+        return true;
+    }
+
     /**
      * @param mixed $expected
      * @param mixed $actual

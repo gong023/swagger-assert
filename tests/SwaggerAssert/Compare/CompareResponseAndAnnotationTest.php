@@ -86,16 +86,16 @@ class CompareResponseAndAnnotationTest extends TestBase
         ];
     }
     /**
-     * @param array $expectedMockVal
-     * @param array $actualMockVal
+     * @param \SwaggerAssert\Container\Expected $expected
+     * @param \SwaggerAssert\Container\Actual $actual
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    private function createPickerMock($expectedMockVal, $actualMockVal)
+    protected function createPickerMock($expected, $actual)
     {
         $pickerStub = $this->getMockBuilder('SwaggerAssert\PickInterface')->setMethods(['execute', 'expected', 'actual'])->getMock();
         $pickerStub->expects($this->any())->method('execute')->will($this->returnValue(null));
-        $pickerStub->expects($this->any())->method('expected')->will($this->returnValue($expectedMockVal));
-        $pickerStub->expects($this->any())->method('actual')->will($this->returnValue($actualMockVal));
+        $pickerStub->expects($this->any())->method('expected')->will($this->returnValue($expected));
+        $pickerStub->expects($this->any())->method('actual')->will($this->returnValue($actual));
 
         return $pickerStub;
     }
