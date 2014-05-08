@@ -9,5 +9,5 @@ before_script:
   - php composer.phar install --dev
   - mkdir -p build/logs
 
-after_scrept:
+after_script:
  - php vendor/bin/coveralls -v
