@@ -30,7 +30,7 @@ class Response
     public function getActualByKeys()
     {
         if ($this->isCollectionWhichDoesNotHaveHash($this->rowData)) {
-            throw new ResponseException('response has no keys. you cannot use response which has collection only');
+            throw new ResponseException('you cannot use response which has no keys.');
         }
 
         return $this->getActualRecursively($this->rowData);
@@ -62,6 +62,12 @@ class Response
     private function getActualRecursively($response)
     {
         $actual = new Actual();
+        $compress = $this->getCompressedKey($response);
+        if ($compress !== false) {
+            $actual->push('collection', new Actual($compress));
+            return $actual;
+        }
+
         foreach ($response as $key => $val) {
             is_array($val) ? $actual->push($key, $this->getActualRecursively($val)) : $actual->push($key);
         }
@@ -70,12 +76,16 @@ class Response
     }
 
     /**
-     * @param $array
+     * @param array $array
      * @return bool
      */
     private function isCollection($array)
     {
         $keys = array_keys($array);
+        if ($keys[0] != 0) {
+            return false;
+        }
+
         for ($i = 0; $i < count($keys); $i++) {
             if (! is_numeric($keys[$i])) {
                 return false;
@@ -91,19 +101,23 @@ class Response
     }
 
     /**
-     * @param array $array
-     * @return Actual
+     * @param array
+     * @return string|bool
      */
-    private function compress($array)
+    private function getCompressedKey($array)
     {
-        if (count($array) == 1) {
-            return new Actual($array);
+        if (empty($array[0])) {
+            return false;
         }
 
-        // よく考えたら潰しちゃいけない・・・
-        for ($i = 0; $i < count($array) - 2; $i ++) {
+        for ($i = 0; $i < count($array) - 1; $i++) {
+            $before = array_keys($array[$i])[0];
+            $after  = array_keys($array[$i + 1])[0];
+            if ($before != $after) {
+                return false;
+            }
         }
 
-        return new Actual($array[0]);
+        return array_keys($array[0])[0];
     }
 }

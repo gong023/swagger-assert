@@ -9,8 +9,6 @@ class ResponseTest extends TestBase
      */
     public function getActualByKeys()
     {
-        $this->markTestSkipped();
-
         $response = new Response(['a' => 'hoge', 'b' => 'fuga', 'c' => 'foo']);
         $actual = $response->getActualByKeys();
 
@@ -22,8 +20,6 @@ class ResponseTest extends TestBase
      */
     public function getActualByKeysNested()
     {
-        $this->markTestSkipped();
-
         $response = new Response(['a' => 'hoge', 'b' => 'fuga', 'c' => ['d' => 'foo', 'e' => ['f' => 'bar']]]);
         $actual = $response->getActualByKeys();
 
@@ -36,13 +32,12 @@ class ResponseTest extends TestBase
      */
     public function getActualByKeysCollection()
     {
-        $this->markTestSkipped();
-
-        $sample = ['a', 'b', 'c'];
-        $response = new Response([$sample, $sample]);
+        $sample = [['A' => 'a'], ['A' => 'b'], ['A' => 'c']];
+        $response = new Response($sample);
         $actual = $response->getActualByKeys();
 
-        $this->assertEquals($sample, $actual->keys());
+        $this->assertEquals(['collection'], $actual->keys());
+        $this->assertEquals(['A'], $actual->collection->keys());
     }
 
     /**
