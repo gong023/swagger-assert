@@ -25,8 +25,8 @@ class ResourcesTest extends TestBase
         $resources = new Resources($this->fixture('analyzedDataCollection'));
         $expected = $resources->expected('GET', '/collection', true);
 
-        $this->assertEquals(['collectionKeys'], $expected->keys());
-        $this->assertEquals(['key1', 'key2'], $expected->collectionKeys->keys());
+        $this->assertEquals(['collection'], $expected->keys());
+        $this->assertEquals(['key1', 'key2'], $expected->collection->keys());
     }
 
     /**
@@ -85,7 +85,7 @@ class ResourcesTest extends TestBase
      * @param string $url
      * @dataProvider invalidMethodAndUrlProvider
      * @expectedException \SwaggerAssert\Exception\AnnotationException
-     * @expectedExceptionMessage SWG\Model not found. you must write SWG\Operation TYPE and SWG\Model ID correctly, or use $ref key
+     * @expectedExceptionMessage SWG\Model not found. you must write SWG\Operation TYPE and SWG\Model ID correctly
      */
     public function expectedKeysNotFound($method, $url)
     {

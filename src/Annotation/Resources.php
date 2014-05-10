@@ -13,12 +13,10 @@ use SwaggerAssert\Exception\AnnotationException;
  */
 class Resources extends Collection
 {
-    /** @var array $collections */
+    /* @var array $collections */
     protected $collections;
 
     /**
-     * コンストラクタ
-     *
      * @param array $rowData
      */
     public function __construct($rowData)
@@ -29,8 +27,8 @@ class Resources extends Collection
     }
 
     /**
-     * httpMethodとurlからassertに使用すべきkeyの配列を取得する
-     * onlyRequiredにfalseを渡すと必須パラメーターでないkeyも含めて返す
+     * get Expected instance from httpMethod and url
+     * if onlyRequired false, targets not required parameter
      *
      * @param string $httpMethod
      * @param string $url
@@ -56,13 +54,13 @@ class Resources extends Collection
             }
         }
 
-        $message = "SWG\\Model not found. you must write SWG\\Operation TYPE and SWG\\Model ID correctly, or use \$ref key. httpMethod:$httpMethod url:$url";
+        $message = "SWG\\Model not found. you must write SWG\\Operation TYPE and SWG\\Model ID correctly. httpMethod:$httpMethod url:$url";
         throw new AnnotationException($message);
     }
 
     /**
-     * Apiクラスの配列を走破し、指定されたHTTPメソッドに一致したOperationクラスを返す
-     * 見つからなかった場合falseを返す
+     * search Api instance collections, and return Operation instance which is specified httpMethod.
+     * return false when instance not found.
      *
      * @param array $apis
      * @param string $httpMethod
@@ -90,22 +88,14 @@ class Resources extends Collection
      */
     private function pickExpectedRecursively($models, $operation, $onlyRequired)
     {
-        // API structure is list
+        // API structure is collection
         if ($operation->hasItemsRef()) {
             return $models->buildExpectedByModelId($operation->itemsRef(), $onlyRequired);
         }
 
         // API structure is hash
         if ($models->exists('id', $operation->type())) {
-            $expected = $models->buildExpectedByModelId($operation->type(), $onlyRequired);
-            // hash has list
-            /* no longer needed?
-            if ($operation->hasItemsRef()) {
-                $expected[$operation->itemsRef()] = $this->pickExpectedRecursively($models, $operation, $onlyRequired);
-            }
-            */
-
-            return $expected;
+            return $models->buildExpectedByModelId($operation->type(), $onlyRequired);
         }
 
         return false;

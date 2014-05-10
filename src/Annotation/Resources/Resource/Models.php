@@ -53,7 +53,7 @@ class Models extends Collection
             }
 
             if ($property->hasItemsRef()) {
-                $expected->push($property->key(), $this->buildExpectedByModelId($property->itemsRefModelId(), $onlyRequired));
+                $expected->push('collection', $this->buildExpectedByModelId($property->itemsRefModelId(), $onlyRequired));
                 continue;
             }
 
