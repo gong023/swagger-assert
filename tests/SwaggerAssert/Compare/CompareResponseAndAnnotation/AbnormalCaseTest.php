@@ -11,9 +11,9 @@ namespace SwaggerAssert\Compare\CompareResponseAndAnnotation;
 use SwaggerAssert\Container\Actual;
 use SwaggerAssert\Container\Expected;
 use SwaggerAssert\Compare\CompareResponseAndAnnotation;
-use SwaggerAssert\Compare\CompareResponseAndAnnotationTest;
+use SwaggerAssert\Compare\CompareResponseAndAnnotationTests;
 
-class AbnormalCase extends CompareResponseAndAnnotationTest
+class AbnormalCaseTest extends CompareResponseAndAnnotationTests
 {
     /**
      * @test

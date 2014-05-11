@@ -4,13 +4,8 @@ namespace SwaggerAssert\Compare;
 
 use SwaggerAssert\TestBase;
 
-class CompareResponseAndAnnotationTest extends TestBase
+class CompareResponseAndAnnotationTests extends TestBase
 {
-    public function testDummy()
-    {
-        $this->assertTrue(true);
-    }
-
     /**
      * @param \SwaggerAssert\Container\Expected $expected
      * @param \SwaggerAssert\Container\Actual $actual
