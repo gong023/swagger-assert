@@ -62,9 +62,13 @@ class Response
     private function getActualRecursively($response)
     {
         $actual = new Actual();
-        $compress = $this->getCompressedKey($response);
+        $compress = $this->getCompressed($response);
         if ($compress !== false) {
-            $actual->push('collection', new Actual($compress));
+            $collectionActual = new Actual();
+            foreach ($compress as $compressedVal) {
+                $collectionActual->push($compressedVal);
+            }
+            $actual->push('collection', $collectionActual);
             return $actual;
         }
 
@@ -102,9 +106,9 @@ class Response
 
     /**
      * @param array
-     * @return string|bool
+     * @return array|bool
      */
-    private function getCompressedKey($array)
+    private function getCompressed($array)
     {
         if (empty($array[0])) {
             return false;
@@ -118,6 +122,6 @@ class Response
             }
         }
 
-        return array_keys($array[0])[0];
+        return array_keys($array[0]);
     }
 }

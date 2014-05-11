@@ -32,12 +32,12 @@ class ResponseTest extends TestBase
      */
     public function getActualByKeysCollection()
     {
-        $sample = [['A' => 'a'], ['A' => 'b'], ['A' => 'c']];
+        $sample = [['A' => 'a', 'B' => 'a'], ['A' => 'b', 'B' => 'b'], ['A' => 'c', 'B' => 'c']];
         $response = new Response($sample);
         $actual = $response->getActualByKeys();
 
         $this->assertEquals(['collection'], $actual->keys());
-        $this->assertEquals(['A'], $actual->collection->keys());
+        $this->assertEquals(['A', 'B'], $actual->collection->keys());
     }
 
     /**
