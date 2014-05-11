@@ -6,6 +6,9 @@ use SwaggerAssert\PickInterface;
 use SwaggerAssert\Response;
 use SwaggerAssert\Annotation;
 
+/**
+ * Class PickResponseAndAnnotation
+ */
 class PickResponseAndAnnotation implements PickInterface
 {
     /* @var array $expected */
