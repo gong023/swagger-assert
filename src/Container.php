@@ -46,7 +46,7 @@ class Container
         $values = [];
         foreach ($this->keys() as $key) {
             if (! is_null($this->$key)) {
-                $values[] = $this->$key;
+                $values[$key] = $this->$key;
             }
         }
         ksort($values);

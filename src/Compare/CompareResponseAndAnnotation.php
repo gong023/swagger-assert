@@ -44,6 +44,11 @@ class CompareResponseAndAnnotation implements CompareInterface
         return $this->assertValues($this->pick->expected(), $this->pick->actual());
     }
 
+    /**
+     * @param \SwaggerAssert\Container\Expected|null $expected
+     * @param \SwaggerAssert\Container\Actual|null $actual
+     * @return bool
+     */
     public function _execute($expected = null, $actual = null)
     {
         if (is_null($expected)) {
@@ -57,6 +62,9 @@ class CompareResponseAndAnnotation implements CompareInterface
 
         $references = $expected->references();
         if (isset($references)) {
+            foreach ($references as $referenceKey => $referenceVal) {
+                $this->_execute($referenceVal, $actual->$referenceKey);
+            }
         }
 
         return true;

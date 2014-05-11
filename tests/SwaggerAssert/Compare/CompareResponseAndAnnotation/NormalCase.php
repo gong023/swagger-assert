@@ -63,4 +63,21 @@ class NormalCase extends CompareResponseAndAnnotationTest
 
         $this->assertTrue($subject->_execute());
     }
+
+    /**
+     * @test
+     */
+    public function collectionCase()
+    {
+        $expected = new Expected();
+        $expected->push('collection', new Expected('A'));
+
+        $actual = new Expected();
+        $actual->push('collection', new Actual('A'));
+
+        $picker = $this->createPickerMock($expected, $actual);
+        $subject = new CompareResponseAndAnnotation($picker);
+
+        $this->assertTrue($subject->_execute());
+    }
 }
