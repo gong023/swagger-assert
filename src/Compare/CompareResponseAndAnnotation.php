@@ -35,21 +35,11 @@ class CompareResponseAndAnnotation implements CompareInterface
 
     /**
      * {@inheritdoc}
-     * @return bool
-     * @throws CompareException
-     */
-    public function execute()
-    {
-        // sort() は参照で行われるので別関数に分けている
-        return $this->assertValues($this->pick->expected(), $this->pick->actual());
-    }
-
-    /**
      * @param \SwaggerAssert\Container\Expected|null $expected
      * @param \SwaggerAssert\Container\Actual|null $actual
      * @return bool
      */
-    public function _execute($expected = null, $actual = null)
+    public function execute($expected = null, $actual = null)
     {
         if (is_null($expected)) {
             $expected = $this->pick->expected();
@@ -63,7 +53,7 @@ class CompareResponseAndAnnotation implements CompareInterface
         $references = $expected->references();
         if (isset($references)) {
             foreach ($references as $referenceKey => $referenceVal) {
-                $this->_execute($referenceVal, $actual->$referenceKey);
+                $this->execute($referenceVal, $actual->$referenceKey);
             }
         }
 
@@ -71,28 +61,8 @@ class CompareResponseAndAnnotation implements CompareInterface
     }
 
     /**
-     * @param mixed $expected
-     * @param mixed $actual
-     * @return bool
-     * @throws CompareException
-     */
-    private function assertValues($expected, $actual)
-    {
-        foreach ($actual as $actualVal) {
-            if (is_array($actualVal)) {
-                $this->emulateAssertEquals(asort($expected), asort($actual));
-                continue;
-            }
-
-            if (! in_array($actualVal, $expected)) {
-                throw new CompareException('nothing!!!');
-            }
-        }
-
-        return true;
-    }
-
-    /**
+     * @param array $expected
+     * @param array $actual
      * @throws CompareException
      */
     private function emulateAssertEquals($expected, $actual)

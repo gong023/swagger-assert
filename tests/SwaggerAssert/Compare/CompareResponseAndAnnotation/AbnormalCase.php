@@ -35,7 +35,7 @@ class AbnormalCase extends CompareResponseAndAnnotationTest
         $picker = $this->createPickerMock($expected, $actual);
         $subject = new CompareResponseAndAnnotation($picker);
 
-        $subject->_execute();
+        $subject->execute();
     }
 
     /**
@@ -56,6 +56,6 @@ class AbnormalCase extends CompareResponseAndAnnotationTest
         $picker = $this->createPickerMock($expected, $actual);
         $subject = new CompareResponseAndAnnotation($picker);
 
-        $subject->_execute();
+        $subject->execute();
     }
 }

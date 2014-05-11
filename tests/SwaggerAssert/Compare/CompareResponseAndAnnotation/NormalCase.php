@@ -28,7 +28,7 @@ class NormalCase extends CompareResponseAndAnnotationTest
         $picker = $this->createPickerMock($expected, $actual);
         $subject = new CompareResponseAndAnnotation($picker);
 
-        $this->assertTrue($subject->_execute());
+        $this->assertTrue($subject->execute());
     }
 
     /**
@@ -61,7 +61,7 @@ class NormalCase extends CompareResponseAndAnnotationTest
         $picker = $this->createPickerMock($expected, $actual);
         $subject = new CompareResponseAndAnnotation($picker);
 
-        $this->assertTrue($subject->_execute());
+        $this->assertTrue($subject->execute());
     }
 
     /**
@@ -78,6 +78,6 @@ class NormalCase extends CompareResponseAndAnnotationTest
         $picker = $this->createPickerMock($expected, $actual);
         $subject = new CompareResponseAndAnnotation($picker);
 
-        $this->assertTrue($subject->_execute());
+        $this->assertTrue($subject->execute());
     }
 }
