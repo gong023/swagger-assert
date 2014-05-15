@@ -6,19 +6,16 @@ use SwaggerAssert\Annotation\Collection;
 use SwaggerAssert\Annotation\Resources\Resource\Apis\Api;
 
 /**
- * SWG\Apiをコレクションするクラス
+ * collection of SWG\Api
  *
  * Class Apis
- * @package SwaggerAssert\Annotation\Resources\Resource
  */
 class Apis extends Collection
 {
-    /** @var array $collections */
+    /* @var array $collections */
     protected $collections = [];
 
     /**
-     * コンストラクタ
-     *
      * @param array $resources
      */
     public function __construct($resources)
@@ -29,8 +26,8 @@ class Apis extends Collection
     }
 
     /**
-     * １つのエンドポイントに複数のhttpメソッドが割り当てられている場合があるので、
-     * Apiクラスを一意に決めることができず配列を返さざるを得ない
+     * endpoint may have multiple http methods.
+     * so cannot return unique instance
      *
      * @param string $key
      * @param string $val

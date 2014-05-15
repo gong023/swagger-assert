@@ -6,19 +6,14 @@ use SwaggerAssert\Annotation\Collection;
 use SwaggerAssert\Annotation\Resources\Resource\Models\Model\Properties\Property;
 
 /**
- * SWG\Propertyをコレクションするクラス
- *
- * Class Properties
- * @package SwaggerAssert\Annotation\Resources\Resource\Models\Model
+ * class of SWG\Property
  */
 class Properties extends Collection
 {
-    /** @var array $collections */
+    /* @var array $collections */
     protected $collections = [];
 
     /**
-     * コンストラクタ
-     *
      * @param array $resources
      */
     public function __construct($resources)
@@ -29,7 +24,7 @@ class Properties extends Collection
     }
 
     /**
-     * Propertyクラスをコレクションした配列を返す
+     * return collection of Property
      *
      * @return array
      */

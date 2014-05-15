@@ -9,16 +9,16 @@ use SwaggerAssert\Annotation\Resources;
  */
 class Annotation
 {
-    /** @var string $httpMethod */
+    /* @var string $httpMethod */
     public static $httpMethod;
 
-    /** @var string $url */
+    /* @var string $url */
     public static $url;
 
-    /** @var array $analyzedData */
+    /* @var array $analyzedData */
     private $analyzedData;
 
-    /** @var bool $url */
+    /* @var bool $url */
     private $onlyRequired;
 
     /**

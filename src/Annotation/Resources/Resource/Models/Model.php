@@ -6,7 +6,7 @@ use SwaggerAssert\Annotation\Individual;
 use SwaggerAssert\Annotation\Resources\Resource\Models\Model\Properties;
 
 /**
- * SWG\Modelのクラス
+ * class of SWG\Model
  */
 class Model extends Individual
 {

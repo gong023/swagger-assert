@@ -2,7 +2,7 @@
 namespace SwaggerAssert;
 
 /**
- * Class Compare
+ * interface Compare
  * conscious of command pattern
  */
 interface CompareInterface

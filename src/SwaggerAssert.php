@@ -3,18 +3,20 @@
 namespace SwaggerAssert;
 
 use Swagger\Swagger;
-use SwaggerAssert\Response;
 use SwaggerAssert\Annotation;
 use SwaggerAssert\Compare\CompareResponseAndAnnotation;
 use SwaggerAssert\Pick\PickResponseAndAnnotation;
 
+/**
+ * Class SwaggerAssert
+ */
 class SwaggerAssert
 {
     /** var array $analyzedData */
     private static $analyzedData;
 
     /**
-     * swaggerを擬似的に実行する。解析結果はファイルに出力せずオブジェクトに保持させる。
+     * emulate swagger. save analyzed data to object
      *
      * @param string $basePath
      */

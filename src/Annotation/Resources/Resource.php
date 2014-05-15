@@ -7,16 +7,14 @@ use SwaggerAssert\Annotation\Resources\Resource\Apis;
 use SwaggerAssert\Annotation\Resources\Resource\Models;
 
 /**
- * SWG\Resourceのクラス
+ * class of SWG\Resource
  */
 class Resource extends Individual
 {
-    /** @var string $fileName */
+    /* @var string $fileName */
     private $fileName;
 
     /**
-     * コンストラクタ
-     *
      * @param string $fileName
      * @param array $resource
      */

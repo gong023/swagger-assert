@@ -8,7 +8,7 @@ namespace SwaggerAssert\Annotation;
 class Collection
 {
     /**
-     * コレクションしたクラスを$keyと$valで検索し、存在するかどうかをboolで返す
+     * search collections by $key and $val, return bool
      *
      * @param string $key
      * @param string $val
@@ -26,7 +26,7 @@ class Collection
     }
 
     /**
-     * コレクションしたクラスを$keyと$valで検索し、一致したクラスのインスタンスを返す
+     * search collections by $key and $val, return instance
      *
      * @param string $key
      * @param string $val

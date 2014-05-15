@@ -3,7 +3,7 @@
 namespace SwaggerAssert;
 
 /**
- * Class Pick
+ * interface Pick
  * conscious of command pattern
  */
 interface PickInterface

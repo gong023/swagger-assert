@@ -10,7 +10,7 @@ use SwaggerAssert\Exception\ResponseException;
  */
 class Response
 {
-    /** var array $rowData */
+    /* var array $rowData */
     private $rowData;
 
     /**
