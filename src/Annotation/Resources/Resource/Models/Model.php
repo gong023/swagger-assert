@@ -45,7 +45,7 @@ class Model extends Individual
         }
 
         $filtered = [];
-        foreach ($this->written('properties') as $propertyKey => $propertyVal) {
+        foreach ($this->written('properties', $this->id()) as $propertyKey => $propertyVal) {
             if (in_array($propertyKey, $this->required())) {
                 $filtered[$propertyKey] = $propertyVal;
             }
