@@ -60,23 +60,25 @@ class ResourcesTest extends TestBase
         /**
          * built structure may be...
          * Expected Object (
-         *       [refInKey] => Expected Object (
-         *           [referenced1] => null
-         *           [referenced2] => null
-         *       )
-         *       [refInKey2] => Expected Object (
-         *           [referenced2-1] => Expected Object (
-         *               [referenced3-1] => Expected Object (
-         *                   [referenced4-1] => null
-         *                   [referenced4-2] => null
-         *               )
-         *           )
+         *       [collection] => Expected Object (
+         *          [refInKey] => Expected Object (
+         *              [referenced1] => null
+         *              [referenced2] => null
+         *          )
+         *          [refInKey2] => Expected Object (
+         *              [referenced2-1] => Expected Object (
+         *                  [referenced3-1] => Expected Object (
+         *                      [referenced4-1] => null
+         *                      [referenced4-2] => null
+         *                  )
+         *              )
+         *          )
          *       )
          *   )
          */
         $expected = $resources->expected('POST', '/nest/{sampleId}', true);
 
-        $this->assertEquals(['refInKey', 'refInKey2'], $expected->keys());
+        $this->assertEquals(['refInKey', 'refInKey2'], $expected->collection->keys());
     }
 
     /**

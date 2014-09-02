@@ -33,10 +33,11 @@ class Models extends Collection
      *
      * @param string $modelId
      * @param bool $onlyRequired
+     * @param bool $firstCollection
      * @return Expected
      * @throws AnnotationException
      */
-    public function buildExpectedByModelId($modelId, $onlyRequired)
+    public function buildExpectedByModelId($modelId, $onlyRequired, $firstCollection = false)
     {
         if (! $this->exists('id', $modelId)) {
             $url = Annotation::$url;
@@ -58,6 +59,13 @@ class Models extends Collection
             }
 
             $expected->push($property->key());
+        }
+
+        if ($firstCollection) {
+            $collectionExpected = new Expected();
+            $collectionExpected->push('collection', $expected);
+
+            return $collectionExpected;
         }
 
         return $expected;

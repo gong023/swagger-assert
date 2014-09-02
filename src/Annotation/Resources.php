@@ -90,7 +90,7 @@ class Resources extends Collection
     {
         // API structure is collection
         if ($operation->hasItemsRef()) {
-            return $models->buildExpectedByModelId($operation->itemsRef(), $onlyRequired);
+            return $models->buildExpectedByModelId($operation->itemsRef(), $onlyRequired, true);
         }
 
         // API structure is hash
