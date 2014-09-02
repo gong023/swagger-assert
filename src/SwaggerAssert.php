@@ -12,7 +12,14 @@ use SwaggerAssert\Pick\PickResponseAndAnnotation;
  */
 class SwaggerAssert
 {
-    /** var array $analyzedData */
+    /**
+     * @var string
+     */
+    const CACHE_FILE = '/tmp/swagger.json';
+
+    /**
+     * @var array $analyzedData
+     */
     private static $analyzedData;
 
     /**
@@ -23,6 +30,10 @@ class SwaggerAssert
     public static function analyze($basePath)
     {
         if (isset(self::$analyzedData)) {
+            return;
+        }
+        if (isset($_ENV['swagger-assert-cache']) && $_ENV['swagger-assert-cache'] && file_exists(self::CACHE_FILE)) {
+            self::$analyzedData = json_decode(file_get_contents(self::CACHE_FILE), true);
             return;
         }
 
@@ -42,6 +53,9 @@ class SwaggerAssert
             $analyzedData[$resourceName] = $annotatedData;
         }
 
+        if (isset($_ENV['swagger-assert-cache']) && $_ENV['swagger-assert-cache']) {
+            file_put_contents(self::CACHE_FILE, json_encode($analyzedData));
+        }
         self::$analyzedData = $analyzedData;
     }
 
