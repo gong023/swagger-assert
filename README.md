@@ -11,7 +11,7 @@ composer
         "gong023/swagger-assert": "dev-master"
     }
 ```
-requires PHP5.4 over
+requires PHP5.4+
 
 ## Usage
 
@@ -59,7 +59,7 @@ At first, call `SwaggerAssert::analyze` at the start of the test. Argument is di
 Second, call `SwaggerAssert::responseHasSwaggerKeys` in test class.
  - First argument: array of API response
  - Second argument: string of http method
- - Thrid argument: url of API endpoint
+ - Third argument: url of API endpoint
 
 When testing the sample API by PHPUnit, code is as follows.
 
@@ -94,7 +94,7 @@ The fourth argument is optional. If you give false, `responseHasSwaggerKeys` con
 if you need more sample, please take a look at [swagger-assert-sandbox](https://github.com/gong023/swagger-assert-sandbox).
 
 ## Motivation
-Swagger doc and API response sometimes differs. If they differs, the swagger doc causes confusion in development.
+Swagger doc and API response sometimes differ. If they differ, the swagger doc causes confusion in development.
 So create library to assert API response and swagger doc.
 
 ## Bugs & Contributions
