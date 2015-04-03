@@ -49,14 +49,4 @@ class ContainerTest extends TestBase
     {
         $this->assertInstanceOf('SwaggerAssert\Container\Actual', $subject->sample);
     }
-
-    /**
-     * @test
-     * @expectedException \Exception
-     */
-    public function setWithInvalidValue()
-    {
-        $subject = new Container();
-        $subject->push('sample', ['something array']);
-    }
 }
