@@ -2,10 +2,11 @@
 
 namespace SwaggerAssert\Compare;
 
+use SebastianBergmann\Comparator\ComparisonFailure;
+use SebastianBergmann\Comparator\Factory as ComparatorFactory;
 use SwaggerAssert\CompareInterface;
 use SwaggerAssert\PickInterface;
 use SwaggerAssert\Exception\CompareException;
-use PHPUnit_Framework_ComparatorFactory;
 use SebastianBergmann\Diff\Differ;
 
 /**
@@ -16,7 +17,7 @@ class CompareResponseAndAnnotation implements CompareInterface
     /* @var \SwaggerAssert\Pick\PickResponseAndAnnotation $pick */
     private $pick;
 
-    /* @var \PHPUnit_Framework_ComparatorFactory */
+    /* @var ComparatorFactory */
     private $comparatorFactory;
 
     /* @var \SebastianBergmann\Diff\Differ  */
@@ -29,7 +30,7 @@ class CompareResponseAndAnnotation implements CompareInterface
     {
         $this->pick = $pick;
         $this->pick->execute();
-        $this->comparatorFactory = PHPUnit_Framework_ComparatorFactory::getDefaultInstance();
+        $this->comparatorFactory = ComparatorFactory::getInstance();
         $this->differ = new Differ("--- Response\n+++ Swagger\n");
     }
 
@@ -70,7 +71,7 @@ class CompareResponseAndAnnotation implements CompareInterface
         try {
             $comparator = $this->comparatorFactory->getComparatorFor($expected, $actual);
             $comparator->assertEquals($actual, $expected, 0, false, false);
-        } catch (\PHPUnit_Framework_ComparisonFailure $e) {
+        } catch (ComparisonFailure $e) {
             $messageHead = "Failed asserting that API response and swagger document are equal.\n";
             throw new CompareException($messageHead . $this->differ->diff($e->getExpectedAsString(), $e->getActualAsString()));
         }
