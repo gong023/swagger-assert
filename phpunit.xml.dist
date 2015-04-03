@@ -3,7 +3,7 @@
 <phpunit>
     <testsuites>
         <testsuite name="SwaggerAssert Test Suite">
-            <directory suffix="Test.php">tests/SwaggerAssert/</directory>
+            <directory suffix="Test.php">tests/SwaggerAssertTest/</directory>
         </testsuite>
     </testsuites>
 
