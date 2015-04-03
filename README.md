@@ -19,7 +19,7 @@ requires PHP5.4+
 Sample API is below. Swagger-assert enables you to assert that `/plain` response has swagger keys `id`,`name`.
 
 ```php
-**
+/**
  * @SWG\Resource(
  *     resourcePath="plain",
  *     @SWG\Api(
