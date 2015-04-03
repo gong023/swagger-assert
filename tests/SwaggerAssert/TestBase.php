@@ -1,15 +1,11 @@
 <?php
+
 namespace SwaggerAssert;
 
-/**
- * Class AnnotationTestBase
- *
- * @package SwaggerAssert
- */
 class TestBase extends \PHPUnit_Framework_TestCase
 {
     /**
-     * fixtureを読み込む
+     * fixture
      *
      * @param string $fileName
      * @return array
