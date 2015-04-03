@@ -4,9 +4,10 @@ php:
   - 5.4
   - 5.5
 
+install:
+  - composer install --no-interaction --prefer-source
+
 before_script:
-  - curl -s http://getcomposer.org/installer | php
-  - php composer.phar install --dev
   - mkdir -p build/logs
 
 after_script:
