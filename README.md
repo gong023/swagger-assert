@@ -64,18 +64,21 @@ Second, call `SwaggerAssert::responseHasSwaggerKeys` in test class.
 When testing the sample API by PHPUnit, code is as follows.
 
 ```php
+
+use SwaggerAssert\SwaggerAssert;
+
 class PlainApiTest extends \PHPUnit_Framework_TestCase
 {
     public function testResponseHasSwaggerKeys()
     {
         $response = $this->request('get', '/plain');
-        $result = \SwaggerAssert::responseHasSwaggerKeys(array $response, 'get', '/plain', $onlyRequired = true);
+        $result = SwaggerAssert::responseHasSwaggerKeys(array $response, 'get', '/plain', $onlyRequired = true);
 
         $this->assertTrue($result);
     }
 }
 ```
-`\SwaggerAssert::responseHasSwaggerKeys` compares API response keys and keys in swagger doc and return true when they match.
+`SwaggerAssert::responseHasSwaggerKeys` compares API response keys and keys in swagger doc and return true when they match.
 If they differs, output below error message.
 
 ```
