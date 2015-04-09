@@ -1,5 +1,5 @@
 # Swagger-assert
-enable to assert swagger doc keys and API response.
+enable to assert swagger 1.2 doc keys and API response. For Swagger 2 take a look to [SwaggerAssertions](https://github.com/Maks3w/SwaggerAssertions)
 
 [![Build Status](https://travis-ci.org/gong023/swagger-assert.svg)](https://travis-ci.org/gong023/swagger-assert)
 [![Coverage Status](https://coveralls.io/repos/gong023/swagger-assert/badge.png?branch=master)](https://coveralls.io/r/gong023/swagger-assert?branch=master)
